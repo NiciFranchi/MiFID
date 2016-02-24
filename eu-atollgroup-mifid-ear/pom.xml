@@ -1,11 +1,10 @@
 <project>
    <modelVersion>4.0.0</modelVersion>
-   <groupId>eu.atollgroup.mifid.ejbs</groupId>
-   <artifactId>eu.atollgroup.mifid.ejbs</artifactId>
-   <name>eu.atollgroup.mifid.ejbs</name>
-   <packaging>ejb</packaging>
+   <groupId>eu.atollgroup.mifid.ear</groupId>
+   <artifactId>eu.atollgroup.mifid.ear</artifactId>
+   <name>eu-atollgroup-mifid-ear</name>
+   <packaging>ear</packaging>
    <version>1.0-SNAPSHOT</version>
-
    <parent>
       <groupId>eu.atollgroup.mifid</groupId>
       <artifactId>eu.atollgroup.mifid</artifactId>
@@ -13,20 +12,25 @@
    </parent>
    <dependencies>
       <dependency>
+         <groupId>root.project.servlets</groupId>
+         <artifactId>servlet</artifactId>
+         <type>war</type>
+      </dependency>
+      <dependency>
          <groupId>root.project.projects</groupId>
          <artifactId>logging</artifactId>
       </dependency>
-  </dependencies>
+   </dependencies>
    <build>
       <plugins>
          <plugin>
-            <artifactId>maven-ejb-plugin</artifactId>
+            <artifactId>maven-ear-plugin</artifactId>
             <configuration>
                <archive>
                   <manifest>
                      <addClasspath>true</addClasspath>
                   </manifest>
-               </archive> 
+               </archive>
             </configuration>
          </plugin>
       </plugins>

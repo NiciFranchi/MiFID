@@ -4,12 +4,12 @@
    <artifactId>eu.atollgroup.mifid</artifactId>
    <packaging>pom</packaging>
    <version>1.0-SNAPSHOT</version>
-   <name>eu.atollgroup.mifid</name>
+   <name>eu-atollgroup-mifid</name>
 
    <modules>
-      <module>servlets</module>
-      <module>eu.atollgroup.mifid.ear</module>
-      <module>eu.atollgroup.mifid.ejbs</module>
+      <module>eu-atollgroup-mifid-web</module>
+      <module>eu-atollgroup-mifid-ear</module>
+      <module>eu-atollgroup-mifid-ejbs</module>
    </modules>
 
    <build>
