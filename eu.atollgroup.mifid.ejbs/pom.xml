@@ -1,0 +1,34 @@
+<project>
+   <modelVersion>4.0.0</modelVersion>
+   <groupId>eu.atollgroup.mifid.ejbs</groupId>
+   <artifactId>eu.atollgroup.mifid.ejbs</artifactId>
+   <name>eu.atollgroup.mifid.ejbs</name>
+   <packaging>ejb</packaging>
+   <version>1.0-SNAPSHOT</version>
+
+   <parent>
+      <groupId>eu.atollgroup.mifid</groupId>
+      <artifactId>eu.atollgroup.mifid</artifactId>
+      <version>1.0-SNAPSHOT</version>
+   </parent>
+   <dependencies>
+      <dependency>
+         <groupId>root.project.projects</groupId>
+         <artifactId>logging</artifactId>
+      </dependency>
+  </dependencies>
+   <build>
+      <plugins>
+         <plugin>
+            <artifactId>maven-ejb-plugin</artifactId>
+            <configuration>
+               <archive>
+                  <manifest>
+                     <addClasspath>true</addClasspath>
+                  </manifest>
+               </archive> 
+            </configuration>
+         </plugin>
+      </plugins>
+   </build>
+</project>
