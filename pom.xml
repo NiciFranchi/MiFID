@@ -1,61 +1,145 @@
 <project>
-   <modelVersion>4.0.0</modelVersion>
-   <groupId>eu.atollgroup.mifid</groupId>
-   <artifactId>eu.atollgroup.mifid</artifactId>
-   <packaging>pom</packaging>
-   <version>1.0-SNAPSHOT</version>
-   <name>eu-atollgroup-mifid</name>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>eu.atollgroup.mifid</groupId>
+    <artifactId>eu.atollgroup.mifid</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+    <name>eu-atollgroup-mifid</name>
 
-   <modules>
-      <module>eu-atollgroup-mifid-web</module>
-      <module>eu-atollgroup-mifid-ear</module>
-      <module>eu-atollgroup-mifid-ejbs</module>
-   </modules>
+    <modules>
+        <module>eu-atollgroup-mifid-web</module>
+        <module>eu-atollgroup-mifid-ear</module>
+        <module>eu-atollgroup-mifid-ejbs</module>
+    </modules>
 
-   <build>
-      <pluginManagement>
-         <plugins>
+    <prerequisites>
+        <maven>3.1.0</maven>
+    </prerequisites>
+
+    <properties>
+        <!-- Project -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>1.7</java.version>
+
+        <!-- Plugins -->
+        <version.plugin.compiler>3.1</version.plugin.compiler>
+        <version.plugin.enforcer>1.3.1</version.plugin.enforcer>
+        <version.plugin.war>2.4</version.plugin.war>
+        <version.plugin.jgitflow>1.0-m3</version.plugin.jgitflow>
+        <version.plugin.jrebel>1.1.5</version.plugin.jrebel>
+
+        <!-- Dependencies -->
+        <version.dependency.javaee>7.0</version.dependency.javaee>
+    </properties>
+
+    <build>
+        <plugins>
             <plugin>
-               <groupId>org.apache.maven.plugins</groupId>
-               <artifactId>maven-site-plugin</artifactId>
-               <configuration>
-                  <unzipCommand>/usr/bin/unzip -o > err.txt</unzipCommand>
-               </configuration>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${version.plugin.compiler}</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <debug>true</debug>
+                    <optimize>true</optimize>
+                </configuration>
             </plugin>
-         </plugins>
-      </pluginManagement>
-   </build>
-   <dependencyManagement>
-      <dependencies>
-         <dependency>
-            <groupId>root.project.projects</groupId>
-            <artifactId>logging</artifactId>
-            <version>1.0</version>
-         </dependency>
-         <dependency>
-            <groupId>root.project</groupId>
-            <artifactId>primary-source</artifactId>
-            <version>1.0</version>
-         </dependency>
-         <dependency>
-            <groupId>root.project.servlets</groupId>
-            <artifactId>servlet</artifactId>
-            <version>1.0</version>
-            <type>war</type>
-         </dependency>
-         <dependency>
-            <groupId>eu.atollgroup.mifid.ejbs</groupId>
-            <artifactId>eu.atollgroup.mifid.ejbs</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <type>ejb</type>
-         </dependency>
-      </dependencies>
-   </dependencyManagement>
-   <distributionManagement>
-      <site>
-         <id>site</id>
-         <name>project website</name>
-         <url>scp://local.company.com/websites/project.company.com/</url>
-      </site>
-   </distributionManagement>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>${version.plugin.war}</version>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>external.atlassian.jgitflow</groupId>
+                <artifactId>jgitflow-maven-plugin</artifactId>
+                <version>${version.plugin.jgitflow}</version>
+                <configuration>
+                    <noDeploy>true</noDeploy>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.zeroturnaround</groupId>
+                <artifactId>jrebel-maven-plugin</artifactId>
+                <version>${version.plugin.jrebel}</version>
+                <executions>
+                    <execution>
+                        <id>generate-rebel-xml</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+            <version>${version.dependency.javaee}</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+    <!--<properties>-->
+        <!--&lt;!&ndash; Project &ndash;&gt;-->
+        <!--<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>-->
+        <!--<java.version>1.7</java.version>-->
+        <!--&lt;!&ndash; Plugins &ndash;&gt;-->
+        <!--<version.plugin.compiler>3.1</version.plugin.compiler>-->
+        <!--&lt;!&ndash; Dependencies &ndash;&gt;-->
+        <!--<version.dependency.javaee>7.0</version.dependency.javaee>-->
+    <!--</properties>-->
+
+    <!--<build>-->
+        <!--<pluginManagement>-->
+            <!--<plugins>-->
+                <!--<plugin>-->
+                    <!--<groupId>org.apache.maven.plugins</groupId>-->
+                    <!--<artifactId>maven-compiler-plugin</artifactId>-->
+                    <!--<version>${version.plugin.compiler}</version>-->
+                    <!--<configuration>-->
+                        <!--<source>${java.version}</source>-->
+                        <!--<target>${java.version}</target>-->
+                        <!--<debug>true</debug>-->
+                        <!--<optimize>true</optimize>-->
+                    <!--</configuration>-->
+                <!--</plugin>-->
+
+                <!--<plugin>-->
+                    <!--<groupId>org.apache.maven.plugins</groupId>-->
+                    <!--<artifactId>maven-site-plugin</artifactId>-->
+                    <!--<configuration>-->
+                        <!--<unzipCommand>/usr/bin/unzip -o > err.txt</unzipCommand>-->
+                    <!--</configuration>-->
+                <!--</plugin>-->
+            <!--</plugins>-->
+        <!--</pluginManagement>-->
+    <!--</build>-->
+    <!--<dependencyManagement>-->
+        <!--<dependencies>-->
+            <!--<dependency>-->
+                <!--<groupId>javax</groupId>-->
+                <!--<artifactId>javaee-api</artifactId>-->
+                <!--<version>${version.dependency.javaee}</version>-->
+                <!--<scope>provided</scope>-->
+            <!--</dependency>-->
+        <!--</dependencies>-->
+    <!--</dependencyManagement>-->
+    <!--<distributionManagement>-->
+        <!--<site>-->
+            <!--<id>site</id>-->
+            <!--<name>project website</name>-->
+            <!--<url>scp://local.company.com/websites/project.company.com/</url>-->
+        <!--</site>-->
+    <!--</distributionManagement>-->
 </project>

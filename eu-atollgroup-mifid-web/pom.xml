@@ -1,17 +1,29 @@
 <project>
-   <modelVersion>4.0.0</modelVersion>
-   <groupId>eu.atollgroup.mifid.web</groupId>
-   <artifactId>eu.atollgroup.mifid.web</artifactId>
-   <name>eu-atollgroup-mifid-web</name>
-   <packaging>pom</packaging>
-   <version>1.0-SNAPSHOT</version>
-   <parent>
-      <groupId>eu.atollgroup.mifid</groupId>
-      <artifactId>eu.atollgroup.mifid</artifactId>
-      <version>1.0-SNAPSHOT</version>
-   </parent>
-   <modules>
-      <module>servlet</module>
-   </modules>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>eu.atollgroup.mifid.web</groupId>
+    <artifactId>eu.atollgroup.mifid.web</artifactId>
+    <name>eu-atollgroup-mifid-web</name>
+    <packaging>war</packaging>
+    <version>1.0-SNAPSHOT</version>
+    <parent>
+        <groupId>eu.atollgroup.mifid</groupId>
+        <artifactId>eu.atollgroup.mifid</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.webjars</groupId>
+                <artifactId>angularjs</artifactId>
+                <version>1.5.0</version>
+            </dependency>
+            <dependency>
+                <groupId>javax</groupId>
+                <artifactId>javaee-web-api</artifactId>
+                <version>6.0</version>
+                <scope>provided</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 </project>
 
