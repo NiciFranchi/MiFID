@@ -9,7 +9,7 @@
     <modules>
         <module>eu-atollgroup-mifid-web</module>
         <module>eu-atollgroup-mifid-ear</module>
-        <module>eu-atollgroup-mifid-ejbs</module>
+        <module>eu-atollgroup-mifid-ejb</module>
     </modules>
 
     <prerequisites>
