@@ -1,7 +1,7 @@
 <project>
     <modelVersion>4.0.0</modelVersion>
-    <groupId>eu.atollgroup.mifid.ejbs</groupId>
-    <artifactId>eu.atollgroup.mifid.ejbs</artifactId>
+    <groupId>eu.atollgroup.mifid.ejb</groupId>
+    <artifactId>eu.atollgroup.mifid.ejb</artifactId>
     <name>eu-atollgroup-mifid-ejb</name>
     <packaging>ejb</packaging>
     <version>1.0-SNAPSHOT</version>

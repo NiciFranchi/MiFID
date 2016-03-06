@@ -14,6 +14,16 @@ public class Questionnaire {
     private String authorLastName;
     private Date dateOfCreation;
 
+    public Questionnaire(String name, String authorFirstName, String authorLastName, Date dateOfCreation) {
+        this.name = name;
+        this.authorFirstName = authorFirstName;
+        this.authorLastName = authorLastName;
+        this.dateOfCreation = dateOfCreation;
+    }
+
+    public Questionnaire() {
+    }
+
     public String getName() {
         return name;
     }
