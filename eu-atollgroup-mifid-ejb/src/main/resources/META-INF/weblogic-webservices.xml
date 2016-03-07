@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<weblogic-webservices
+	xmlns="http://xmlns.oracle.com/weblogic/weblogic-webservices">
+	<webservice-description>
+		<webservice-description-name>MiFIDService</webservice-description-name>
+		<webservice-type>JAXWS</webservice-type>
+		<port-component>
+			<port-component-name>MiFIDServicePort</port-component-name>
+			<service-endpoint-address>
+				<webservice-contextpath>/mifid</webservice-contextpath>
+				<webservice-serviceuri>MiFIDService</webservice-serviceuri>
+			</service-endpoint-address>
+		</port-component>
+	</webservice-description>
+	
+</weblogic-webservices>
