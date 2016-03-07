@@ -12,13 +12,13 @@ public class Questionnaire {
     private String name;
     private String authorFirstName;
     private String authorLastName;
-    private Date dateOfCreation;
+//    private Date dateOfCreation;
 
     public Questionnaire(String name, String authorFirstName, String authorLastName, Date dateOfCreation) {
         this.name = name;
         this.authorFirstName = authorFirstName;
         this.authorLastName = authorLastName;
-        this.dateOfCreation = dateOfCreation;
+//        this.dateOfCreation = dateOfCreation;
     }
 
     public Questionnaire() {
@@ -48,11 +48,11 @@ public class Questionnaire {
         this.authorLastName = authorLastName;
     }
 
-    public Date getDateOfCreation() {
-        return dateOfCreation;
-    }
+//    public Date getDateOfCreation() {
+//        return dateOfCreation;
+//    }
 
-    public void setDateOfCreation(Date dateOfCreation) {
-        this.dateOfCreation = dateOfCreation;
-    }
+//    public void setDateOfCreation(Date dateOfCreation) {
+//        this.dateOfCreation = dateOfCreation;
+//    }
 }

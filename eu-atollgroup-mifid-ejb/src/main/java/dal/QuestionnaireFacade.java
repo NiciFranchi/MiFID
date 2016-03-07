@@ -5,7 +5,6 @@ import entity.Questionnaire;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
 
 /**
  * Created by u95599 on 2016.03.04.

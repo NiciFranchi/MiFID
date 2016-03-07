@@ -10,7 +10,6 @@ import java.util.List;
 /**
  * Created by u95599 on 2016.03.04.
  */
-
 public abstract class AbstractFacade<T> {
     private Class<T> entityClass;
 

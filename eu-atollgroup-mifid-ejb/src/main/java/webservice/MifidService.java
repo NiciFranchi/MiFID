@@ -5,12 +5,12 @@ import entity.Questionnaire;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.interceptor.Interceptors;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
-import javax.transaction.Transactional;
 import java.util.Date;
 
 /**
@@ -28,6 +28,7 @@ import java.util.Date;
         style = SOAPBinding.Style.DOCUMENT,
         use = SOAPBinding.Use.LITERAL,
         parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
+@Interceptors(LoggingInterceptor.class)
 public class MifidService {
 
     @EJB
@@ -39,8 +40,8 @@ public class MifidService {
             @WebParam(name = "name") String name,
             @WebParam(name = "authorFirstName") String authorFirstName,
             @WebParam(name = "authosLastName") String authorLastName) {
-        //Questionnaire questionnaire = new Questionnaire(name, authorFirstName, authorLastName, new Date());
-        Questionnaire questionnaire = new Questionnaire();
+        Questionnaire questionnaire = new Questionnaire(name, authorFirstName, authorLastName, new Date());
+        //Questionnaire questionnaire = new Questionnaire();
         questionnaireFacade.create(questionnaire);
         //handlerBean.createQuestionnaire(questionnaire);
 
