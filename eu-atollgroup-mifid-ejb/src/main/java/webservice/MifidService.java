@@ -1,7 +1,7 @@
 package webservice;
 
-import dal.QuestionnaireFacade;
 import entity.Questionnaire;
+import handler.HandlerBean;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -32,7 +32,7 @@ import java.util.Date;
 public class MifidService {
 
     @EJB
-    QuestionnaireFacade questionnaireFacade;
+    HandlerBean handlerBean;
 
     @WebMethod
     @WebResult(name = "addQuestionnaireResponse")
@@ -41,10 +41,23 @@ public class MifidService {
             @WebParam(name = "authorFirstName") String authorFirstName,
             @WebParam(name = "authosLastName") String authorLastName) {
         Questionnaire questionnaire = new Questionnaire(name, authorFirstName, authorLastName, new Date());
-        //Questionnaire questionnaire = new Questionnaire();
-        questionnaireFacade.create(questionnaire);
-        //handlerBean.createQuestionnaire(questionnaire);
+        handlerBean.addQuestionnaire(questionnaire);
+    }
 
+    @WebMethod
+    @WebResult(name = "addQuestionResponse")
+    public void addQuestion(
+            @WebParam(name = "questionnaireId") Long questionnaireId,
+            @WebParam(name = "name") String name,
+            @WebParam(name = "description") String description){
+        handlerBean.addQuestion(questionnaireId, name, description);
+    }
 
+    @WebMethod
+    @WebResult(name = "addAnswerResponse")
+    public void addAnswer(
+            @WebParam(name = "questionId") Long questionId,
+            @WebParam(name = "name") String name){
+        handlerBean.addAnswer(questionId, name);
     }
 }

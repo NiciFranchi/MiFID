@@ -11,14 +11,4 @@
                 <property name="eclipselink.target-server" value="WebLogic_12"/>
             </properties>
         </persistence-unit>
-    <!--<persistence-unit name="jdbc/mifid">-->
-        <!--<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>-->
-        <!--<jta-data-source>jdbc/mifid</jta-data-source>-->
-        <!--<properties>-->
-            <!--<property name="hibernate.show_sql" value="true" />-->
-            <!--<property name="hibernate.format_sql" value="true" />-->
-            <!--<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect" />-->
-            <!--<property name="hibernate.hbm2ddl.auto" value="create-drop" />-->
-        <!--</properties>-->
-    <!--</persistence-unit>-->
 </persistence>

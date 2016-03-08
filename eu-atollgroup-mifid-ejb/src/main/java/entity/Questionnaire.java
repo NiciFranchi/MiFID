@@ -1,24 +1,32 @@
 package entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Questionnaire {
     @Id
+    @GeneratedValue
     private Long id;
 
     private String name;
     private String authorFirstName;
     private String authorLastName;
-//    private Date dateOfCreation;
+    @Temporal(TemporalType.DATE)
+    private Date dateOfCreation;
+
+    @OneToMany
+    private List<Question> questionList;
+
+    @OneToOne
+    private Product product;
 
     public Questionnaire(String name, String authorFirstName, String authorLastName, Date dateOfCreation) {
         this.name = name;
         this.authorFirstName = authorFirstName;
         this.authorLastName = authorLastName;
-//        this.dateOfCreation = dateOfCreation;
+        this.dateOfCreation = dateOfCreation;
     }
 
     public Questionnaire() {
@@ -48,11 +56,11 @@ public class Questionnaire {
         this.authorLastName = authorLastName;
     }
 
-//    public Date getDateOfCreation() {
-//        return dateOfCreation;
-//    }
+    public Date getDateOfCreation() {
+        return dateOfCreation;
+    }
 
-//    public void setDateOfCreation(Date dateOfCreation) {
-//        this.dateOfCreation = dateOfCreation;
-//    }
+    public void setDateOfCreation(Date dateOfCreation) {
+        this.dateOfCreation = dateOfCreation;
+    }
 }
