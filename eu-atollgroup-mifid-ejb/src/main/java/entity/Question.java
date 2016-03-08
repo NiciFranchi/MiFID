@@ -1,6 +1,7 @@
 package entity;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
 /**
@@ -8,6 +9,7 @@ import java.util.List;
  */
 
 @Entity
+@XmlRootElement(name = "question")
 public class Question {
     @Id
     @GeneratedValue

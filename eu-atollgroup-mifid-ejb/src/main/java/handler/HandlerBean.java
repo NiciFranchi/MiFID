@@ -9,6 +9,7 @@ import entity.Questionnaire;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import java.util.List;
 
 /**
  * Created by u95599 on 2016.03.08.
@@ -41,5 +42,9 @@ public class HandlerBean {
         Question question = questionFacade.find(questionId);
         Answer answer = new Answer(question, name);
         answerFacade.create(answer);
+    }
+
+    public List<Question> getAllQuestions() {
+        return questionFacade.findAll();
     }
 }
