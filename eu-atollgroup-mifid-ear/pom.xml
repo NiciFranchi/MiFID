@@ -27,6 +27,7 @@
    <build>
       <plugins>
          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-ear-plugin</artifactId>
             <configuration>
                <archive>
@@ -34,6 +35,13 @@
                      <addClasspath>true</addClasspath>
                   </manifest>
                </archive>
+               <modules>
+                  <webModule>
+                     <groupId>eu.atollgroup.mifid.web</groupId>
+                     <artifactId>eu.atollgroup.mifid.web</artifactId>
+                     <contextRoot>/mifid-web</contextRoot>
+                  </webModule>
+               </modules>
             </configuration>
          </plugin>
       </plugins>

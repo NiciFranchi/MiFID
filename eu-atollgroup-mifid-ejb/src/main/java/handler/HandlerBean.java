@@ -47,4 +47,8 @@ public class HandlerBean {
     public List<Question> getAllQuestions() {
         return questionFacade.findAll();
     }
+
+    public List<Questionnaire> getAllQuestionaries() {
+        return questionnaireFacade.findAll();
+    }
 }
