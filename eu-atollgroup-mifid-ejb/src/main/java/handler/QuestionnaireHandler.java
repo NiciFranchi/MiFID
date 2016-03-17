@@ -6,9 +6,11 @@ import dal.QuestionnaireFacade;
 import entity.Answer;
 import entity.Question;
 import entity.Questionnaire;
+import handlerinterface.QuestionnaireHandlerLocal;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -16,7 +18,7 @@ import java.util.List;
  */
 
 @Stateless
-public class HandlerBean {
+public class QuestionnaireHandler implements QuestionnaireHandlerLocal {
 
     @EJB
     QuestionnaireFacade questionnaireFacade;
@@ -28,15 +30,18 @@ public class HandlerBean {
     AnswerFacade answerFacade;
 
 
-    public void addQuestionnaire(Questionnaire questionnaire){
+
+    @Override
+    public List<Questionnaire> getQuestionnaires(){
+        return questionnaireFacade.findAll();
+    }
+
+    @Override
+    public void addQuestionnaire(String name, String authorFirstName, String authorLastName, Date date) {
+        Questionnaire questionnaire = new Questionnaire(name, authorFirstName,authorLastName, date);
         questionnaireFacade.create(questionnaire);
     }
 
-    public void addQuestion(Long questionnaireId, String name, String description) {
-        Questionnaire questionnaire = questionnaireFacade.find(questionnaireId);
-        Question question = new Question(questionnaire, name, description);
-        questionFacade.create(question);
-    }
 
     public void addAnswer(Long questionId, String name) {
         Question question = questionFacade.find(questionId);

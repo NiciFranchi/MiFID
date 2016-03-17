@@ -1,9 +1,10 @@
 package webservice;
 
-import entity.Questionnaire;
-import handler.HandlerBean;
 
-import javax.ejb.EJB;
+import handlerinterface.QuestionHandlerLocal;
+import handlerinterface.QuestionnaireHandlerLocal;
+import lookup.EJBLookup;
+
 import javax.ejb.Stateless;
 import javax.interceptor.Interceptors;
 import javax.jws.WebMethod;
@@ -31,8 +32,8 @@ import java.util.Date;
 @Interceptors(LoggingInterceptor.class)
 public class MifidService {
 
-    @EJB
-    HandlerBean handlerBean;
+//    @EJB
+//    QuestionnaireHandlerLocal handlerBean;
 
     @WebMethod
     @WebResult(name = "addQuestionnaireResponse")
@@ -40,8 +41,8 @@ public class MifidService {
             @WebParam(name = "name") String name,
             @WebParam(name = "authorFirstName") String authorFirstName,
             @WebParam(name = "authosLastName") String authorLastName) {
-        Questionnaire questionnaire = new Questionnaire(name, authorFirstName, authorLastName, new Date());
-        handlerBean.addQuestionnaire(questionnaire);
+        QuestionnaireHandlerLocal handlerBean = EJBLookup.getInstance().getQuestionnaireHandlerLocal();
+        handlerBean.addQuestionnaire(name, authorFirstName, authorLastName, new Date());
     }
 
     @WebMethod
@@ -50,14 +51,22 @@ public class MifidService {
             @WebParam(name = "questionnaireId") Long questionnaireId,
             @WebParam(name = "name") String name,
             @WebParam(name = "description") String description){
+
+//        QuestionnaireHandlerLocal handlerBean = null;
+//        try {
+//            handlerBean = (QuestionnaireHandlerLocal) new InitialContext().lookup("java:module/QuestionnaireHandler");
+//        } catch (NamingException e) {
+//            e.printStackTrace();
+//        }
+        QuestionHandlerLocal handlerBean = EJBLookup.getInstance().getQuestionHandlerLocal();
         handlerBean.addQuestion(questionnaireId, name, description);
     }
-
-    @WebMethod
-    @WebResult(name = "addAnswerResponse")
-    public void addAnswer(
-            @WebParam(name = "questionId") Long questionId,
-            @WebParam(name = "name") String name){
-        handlerBean.addAnswer(questionId, name);
-    }
+//
+//    @WebMethod
+//    @WebResult(name = "addAnswerResponse")
+//    public void addAnswer(
+//            @WebParam(name = "questionId") Long questionId,
+//            @WebParam(name = "name") String name){
+//        handlerBean.addAnswer(questionId, name);
+//    }
 }

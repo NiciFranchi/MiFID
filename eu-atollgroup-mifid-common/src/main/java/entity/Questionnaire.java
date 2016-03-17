@@ -1,10 +1,12 @@
 package entity;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
 import java.util.List;
 
 @Entity
+@XmlRootElement
 public class Questionnaire {
     @Id
     @GeneratedValue
