@@ -7,6 +7,7 @@
     <name>eu-atollgroup-mifid</name>
 
     <modules>
+        <module>eu-atollgroup-mifid-common</module>
         <module>eu-atollgroup-mifid-web</module>
         <module>eu-atollgroup-mifid-ear</module>
         <module>eu-atollgroup-mifid-ejb</module>
