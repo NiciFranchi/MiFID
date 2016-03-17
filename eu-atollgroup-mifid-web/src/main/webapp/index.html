@@ -1,13 +1,21 @@
 <!DOCTYPE html>
 <html>
-
+<head>
+    <script src="lib/angular.js"></script>
+    <script src="lib/angular-resource.js"></script>
+    <script src="app/app.js"></script>
+    <script src="app/controllers/controllers.js"></script>
+    <script src="app/services/services.js"></script>
+</head>
 
 
 <body>
 <div ng-app="mainApp">
-    <div ng-controller="PopoverDemoCtrl">
-        <h4>Positional</h4>
-
+    <div ng-controller="QuestionnaireCtrl">
+        <h4>Kerdoivek</h4>
+        <ul>
+            <li ng-repeat="oneQuestionnaire in allQuestionnaires">{{oneQuestionnaire.name}}</li>
+        </ul>
         <div class="form-group">
             <label>Popover placement</label>
             <select class="form-control" ng-model="placement.selected"
@@ -15,27 +23,29 @@
         </div>
     </div>
 
-    <div ng-controller="myCtrl">
-        <ul>
-            <li ng-repeat="x in products">{{x}}
-                <button ng-click="removeItem($index)">Remove</button>
-            </li>
-        </ul>
-        <input ng-model="addMe">
-        <button ng-click="addItem()">Add</button>
-        <p>{{errortext}}</p>
 
-        <p>Try to add the same item twice, and you will get an error message.</p>
-    </div>
+    <!--<div ng-controller="PopoverDemoCtrl">-->
+        <!--<h4>Positional</h4>-->
+
+        <!--<div class="form-group">-->
+            <!--<label>Popover placement</label>-->
+            <!--<select class="form-control" ng-model="placement.selected"-->
+                    <!--ng-options="o as o for o in placement.options"></select>-->
+        <!--</div>-->
+    <!--</div>-->
+
+    <!--<div ng-controller="myCtrl">-->
+    <!--<ul>-->
+    <!--<li ng-repeat="x in products">{{x}}-->
+    <!--<button ng-click="removeItem($index)">Remove</button>-->
+    <!--</li>-->
+    <!--</ul>-->
+    <!--<input ng-model="addMe">-->
+    <!--<button ng-click="addItem()">Add</button>-->
+    <!--<p>{{errortext}}</p>-->
+
+    <!--<p>Try to add the same item twice, and you will get an error message.</p>-->
+    <!--</div>-->
 </div>
-
-<script src="lib/angular.js"></script>
-<script src="app/app.js"></script>
-<script src="app/controllers/controllers.js"></script>
-<script src="app/services/services.js"></script>
-
 </body>
-
-
-
 </html>
