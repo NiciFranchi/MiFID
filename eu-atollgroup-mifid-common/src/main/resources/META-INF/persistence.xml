@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence" version="2.1">
+        <persistence-unit name="jdbc/mifid" transaction-type="JTA">
+            <jta-data-source>jdbc/mifid</jta-data-source>
+            <exclude-unlisted-classes>false</exclude-unlisted-classes>
+            <properties>
+                <property name="eclipselink.ddl-generation" value="create-tables"/>
+                <property name="eclipselink.ddl-generation.output-mode" value="both"/>
+                <property name="eclipselink.cache.shared.default" value="false"/>
+                <property name="eclipselink.target-database" value="MySQL"/>
+                <property name="eclipselink.target-server" value="WebLogic_12"/>
+            </properties>
+        </persistence-unit>
+</persistence>
