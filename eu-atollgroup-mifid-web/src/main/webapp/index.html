@@ -1,38 +1,70 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <script src="lib/angular.js"></script>
-    <script src="lib/angular-resource.js"></script>
-    <script src="app/app.js"></script>
-    <script src="app/controllers/controllers.js"></script>
-    <script src="app/services/services.js"></script>
+    <meta charset="UTF-8">
+    <!--STYLESHEETS-->
+    <link href="tools/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+    <link href="tools/bootstrap/css/bootstrap-theme.css" rel="stylesheet" type="text/css"/>
 </head>
 
 
 <body>
 <div ng-app="mainApp">
-    <div ng-controller="QuestionnaireCtrl">
-        <h4>Kerdoivek</h4>
-        <ul>
-            <li ng-repeat="oneQuestionnaire in allQuestionnaires">{{oneQuestionnaire.name}}</li>
-        </ul>
-        <div class="form-group">
-            <label>Popover placement</label>
-            <select class="form-control" ng-model="placement.selected"
-                    ng-options="o as o for o in placement.options"></select>
-        </div>
-    </div>
+
+    <table>
+        <tr>
+            <td>
+                <div ng-controller="QuestionnaireCtrl">
+                    <h4>Kerdoivek</h4>
+                    <ul>
+                        <li ng-repeat="oneQuestionnaire in allQuestionnaires">{{oneQuestionnaire.name}}</li>
+                    </ul>
+                    <div class="form-group">
+                        <label>Popover placement</label>
+                        <select class="form-control" ng-model="placement.selected"
+                                ng-options="o as o for o in placement.options"></select>
+                    </div>
+                </div>
+
+                <!--<div ng-controller="PopoverDemoCtrl">-->
+                <!--<h4>Positional</h4>-->
+
+                <!--<div class="form-group">-->
+                <!--<label>Popover placement</label>-->
+                <!--<select class="form-control" ng-model="placement.selected"-->
+                <!--ng-options="o as o for o in placement.options"></select>-->
+                <!--</div>-->
+                <!--</div>-->
 
 
-    <!--<div ng-controller="PopoverDemoCtrl">-->
-        <!--<h4>Positional</h4>-->
+                <div ng-controller="CollapseDemoCtrl">
+                    <button type="button" class="btn btn-danger" ng-click="isCollapsed = !isCollapsed">
+                        Új kérdőív felvétele
+                    </button>
+                    <div uib-collapse="isCollapsed">
+                        <div class="well well-lg">
+                            <form name="myForm">
+                                <label>
+                                    Kérdőív elnevezése:
+                                    <input ng-model="addMe">
+                                </label>
 
-        <!--<div class="form-group">-->
-            <!--<label>Popover placement</label>-->
-            <!--<select class="form-control" ng-model="placement.selected"-->
-                    <!--ng-options="o as o for o in placement.options"></select>-->
-        <!--</div>-->
-    <!--</div>-->
+                                <div ng-controller="PopoverDemoCtrl">
+                                    <label>Vonatkozó termék</label>
+                                    <select class="form-control" ng-model="placement.selected"
+                                            ng-options="o as o for o in placement.options"></select>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </td>
+            <td>
+                <h4>Előnézet</h4>
+            </td>
+        </tr>
+    </table>
 
     <!--<div ng-controller="myCtrl">-->
     <!--<ul>-->
@@ -47,5 +79,22 @@
     <!--<p>Try to add the same item twice, and you will get an error message.</p>-->
     <!--</div>-->
 </div>
+
+<script src="lib/angular.js"></script>
+<script src="lib/angular-resource.js"></script>
+<script src="lib/angular-animate.js"></script>
+<script src="app/app.js"></script>
+<!--CONTROLLERS-->
+<script src="app/controllers/CollapseDemoCtrl.js"></script>
+<script src="app/controllers/QuestionnaireCtrl.js"></script>
+<script src="app/controllers/PopoverDemoCtrl.js"></script>
+
+<!--SERVICES-->
+<script src="app/services/QuestionnairesService.js"></script>
+<!--jQuery-->
+<script src="tools/jQuery/jquery-1.12.2.min.js" type="text/javascript"></script>
+<!--BootStrap-->
+<script src="tools/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="tools/bootstrap/js/ui-bootstrap-tpls-1.2.4.min.js" type="text/javascript"></script>
 </body>
 </html>
