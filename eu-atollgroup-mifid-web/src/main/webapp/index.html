@@ -37,7 +37,7 @@
                 <!--</div>-->
 
 
-                <div ng-controller="CollapseDemoCtrl">
+                <div ng-controller="QuestionnaireCtrl">
                     <button type="button" class="btn btn-danger" ng-click="isCollapsed = !isCollapsed">
                         Új kérdőív felvétele
                     </button>
@@ -46,8 +46,8 @@
                             <form name="myForm">
                                 <label>
                                     Kérdőív elnevezése:
-                                    <input ng-model="addMe">
                                 </label>
+                                <input ng-model="questionnaireName">
 
                                 <div ng-controller="PopoverDemoCtrl">
                                     <label>Vonatkozó termék</label>
@@ -55,10 +55,20 @@
                                             ng-options="o as o for o in placement.options"></select>
                                 </div>
                             </form>
+                            <!--<button type="button" class="btn btn-danger" ng-click="isCollapsed = !isCollapsed">-->
+                            <!--Új kérdés-->
+                            <!--</button>-->
+
+                            <div ng-repeat="question in questions">{{question.name}}
+                                <ul>
+                                    <li ng-repeat="answer in question.answers">{{answer}}</li>
+                                </ul>
+                                <input ng-model="answerName" placeholder="lehetséges válasz"><button ng-click="addAnswer(answerName, $index)">+</button>
+                            </div>
+                            <input ng-model="questionName" placeholder="lehetséges kérdés"><button ng-click="addQuestion(questionName)">+</button>
                         </div>
                     </div>
                 </div>
-
             </td>
             <td>
                 <h4>Előnézet</h4>
@@ -66,18 +76,18 @@
         </tr>
     </table>
 
-    <!--<div ng-controller="myCtrl">-->
-    <!--<ul>-->
-    <!--<li ng-repeat="x in products">{{x}}-->
-    <!--<button ng-click="removeItem($index)">Remove</button>-->
-    <!--</li>-->
-    <!--</ul>-->
-    <!--<input ng-model="addMe">-->
-    <!--<button ng-click="addItem()">Add</button>-->
-    <!--<p>{{errortext}}</p>-->
 
-    <!--<p>Try to add the same item twice, and you will get an error message.</p>-->
-    <!--</div>-->
+    <div ng-controller="myCtrl">
+        <ul>
+            <li ng-repeat="x in products">{{x}}<span ng-click="removeItem($index)">×</span></li>
+        </ul>
+        <input ng-model="addMe">
+        <button ng-click="addItem()">Add</button>
+        <p>{{errortext}}</p>
+    </div>
+
+    <p>Try to add the same item twice, and you will get an error message.</p>
+
 </div>
 
 <script src="lib/angular.js"></script>
@@ -88,6 +98,7 @@
 <script src="app/controllers/CollapseDemoCtrl.js"></script>
 <script src="app/controllers/QuestionnaireCtrl.js"></script>
 <script src="app/controllers/PopoverDemoCtrl.js"></script>
+<script src="app/controllers/myCtrl.js"></script>
 
 <!--SERVICES-->
 <script src="app/services/QuestionnairesService.js"></script>
