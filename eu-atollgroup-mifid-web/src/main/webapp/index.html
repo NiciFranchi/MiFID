@@ -10,71 +10,93 @@
 
 <body>
 <div ng-app="mainApp">
+    <!--PAGE HEADER-->
+    <div class="page-header">
+        <h1>MiFID
+            <small>kérdőív rendszer</small>
+        </h1>
+    </div>
+    <!--NAVBAR-->
+    <ul class="nav nav-tabs">
+        <li role="presentation" class="active"><a href="#">Kérdőív felvétele</a></li>
+        <li role="presentation"><a href="#">Valami</a></li>
+        <li role="presentation"><a href="#">Valami</a></li>
+        <li role="presentation" class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+               aria-expanded="false">
+                Valami lenyíló <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
 
-    <table>
-        <tr>
-            <td>
-                <div ng-controller="QuestionnaireCtrl">
-                    <h4>Kerdoivek</h4>
-                    <ul>
-                        <li ng-repeat="oneQuestionnaire in allQuestionnaires">{{oneQuestionnaire.name}}</li>
-                    </ul>
-                    <div class="form-group">
-                        <label>Popover placement</label>
-                        <select class="form-control" ng-model="placement.selected"
-                                ng-options="o as o for o in placement.options"></select>
-                    </div>
+            </ul>
+        </li>
+        ...
+    </ul>
+    <div class="row">
+        <div class="col-md-6">
+            <!--KÉRDŐÍV VÁLASZTÓ-->
+            <div ng-controller="QuestionnaireCtrl">
+                <h4>Kérdőívek</h4>
+                <ul>
+                    <li ng-repeat="oneQuestionnaire in allQuestionnaires">{{oneQuestionnaire.name}}</li>
+                </ul>
+                <div class="form-group">
+                    <label>Popover placement</label>
+                    <select class="form-control" ng-model="placement.selected"
+                            ng-options="o as o for o in placement.options"></select>
                 </div>
-
-                <!--<div ng-controller="PopoverDemoCtrl">-->
-                <!--<h4>Positional</h4>-->
-
-                <!--<div class="form-group">-->
-                <!--<label>Popover placement</label>-->
-                <!--<select class="form-control" ng-model="placement.selected"-->
-                <!--ng-options="o as o for o in placement.options"></select>-->
-                <!--</div>-->
-                <!--</div>-->
-
-
-                <div ng-controller="QuestionnaireCtrl">
-                    <button type="button" class="btn btn-danger" ng-click="isCollapsed = !isCollapsed">
-                        Új kérdőív felvétele
-                    </button>
-                    <div uib-collapse="isCollapsed">
-                        <div class="well well-lg">
-                            <form name="myForm">
+            </div>
+            <!--KÉRDŐÍV FELVEVŐ-->
+            <div ng-controller="QuestionnaireCtrl">
+                <button type="button" class="btn btn-danger" ng-click="isCollapsed = !isCollapsed">
+                    Új kérdőív felvétele
+                </button>
+                <div uib-collapse="isCollapsed">
+                    <div class="well well-lg">
+                        <form>
+                            <div class="form-group">
                                 <label>
                                     Kérdőív elnevezése:
                                 </label>
-                                <input ng-model="questionnaireName">
-
+                                <input class="form-control" ng-model="questionnaireName">
+                                <label>
+                                    Leírás:
+                                </label>
+                                <input class="form-control" ng-model="description">
+                            </div>
+                            <div class="form-group">
                                 <div ng-controller="PopoverDemoCtrl">
                                     <label>Vonatkozó termék</label>
                                     <select class="form-control" ng-model="placement.selected"
                                             ng-options="o as o for o in placement.options"></select>
                                 </div>
-                            </form>
-                            <!--<button type="button" class="btn btn-danger" ng-click="isCollapsed = !isCollapsed">-->
-                            <!--Új kérdés-->
-                            <!--</button>-->
-
-                            <div ng-repeat="question in questions">{{question.name}}
-                                <ul>
-                                    <li ng-repeat="answer in question.answers">{{answer}}</li>
-                                </ul>
-                                <input ng-model="answerName" placeholder="lehetséges válasz"><button ng-click="addAnswer(answerName, $index)">+</button>
                             </div>
-                            <input ng-model="questionName" placeholder="lehetséges kérdés"><button ng-click="addQuestion(questionName)">+</button>
-                        </div>
+
+                            <div class="form-group" ng-repeat="question in questions">{{question.name}}
+                                <button ng-click="removeQuestion($index)">-</button>
+                                <ul>
+                                    <li ng-repeat="answer in question.answers">{{answer}}
+                                        <button ng-click="removeAnswer($parent.$index, $index)">-</button>
+                                    </li>
+                                    <input class="form-control" ng-model="answerName"
+                                           placeholder="lehetséges válasz">
+                                    <button ng-click="addAnswer(answerName, $index)">+</button>
+                                </ul>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" ng-model="questionName" placeholder="lehetséges kérdés">
+                                <button ng-click="addQuestion(questionName)">+</button>
+                            </div>
+                            <input class="btn btn-default" type="submit" value="Mentés">
+                        </form>
                     </div>
                 </div>
-            </td>
-            <td>
-                <h4>Előnézet</h4>
-            </td>
-        </tr>
-    </table>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h4>Előnézet</h4>
+        </div>
+    </div>
 
 
     <div ng-controller="myCtrl">
