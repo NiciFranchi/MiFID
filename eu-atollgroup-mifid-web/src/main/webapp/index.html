@@ -30,75 +30,105 @@
 
             </ul>
         </li>
-        ...
     </ul>
-    <div class="row">
-        <div class="col-md-6">
-            <!--KÉRDŐÍV VÁLASZTÓ-->
-            <div ng-controller="QuestionnaireCtrl">
-                <h4>Kérdőívek</h4>
-                <ul>
-                    <li ng-repeat="oneQuestionnaire in allQuestionnaires">{{oneQuestionnaire.name}}</li>
-                </ul>
-                <div class="form-group">
-                    <label>Popover placement</label>
-                    <select class="form-control" ng-model="placement.selected"
-                            ng-options="o as o for o in placement.options"></select>
-                </div>
-            </div>
-            <!--KÉRDŐÍV FELVEVŐ-->
-            <div ng-controller="QuestionnaireCtrl">
-                <button type="button" class="btn btn-danger" ng-click="isCollapsed = !isCollapsed">
-                    Új kérdőív felvétele
-                </button>
-                <div uib-collapse="isCollapsed">
-                    <div class="well well-lg">
-                        <form>
-                            <div class="form-group">
-                                <label>
-                                    Kérdőív elnevezése:
-                                </label>
-                                <input class="form-control" ng-model="questionnaireName">
-                                <label>
-                                    Leírás:
-                                </label>
-                                <input class="form-control" ng-model="description">
-                            </div>
-                            <div class="form-group">
-                                <div ng-controller="PopoverDemoCtrl">
-                                    <label>Vonatkozó termék</label>
-                                    <select class="form-control" ng-model="placement.selected"
-                                            ng-options="o as o for o in placement.options"></select>
-                                </div>
+    <p>
+
+    </p>
+    <div ng-controller="QuestionnaireCtrl">
+        <div class="row">
+            <!--KÉRDŐÍV SZERKESZTŐ-->
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Kérdőívek szerkesztése</h3>
+                    </div>
+                    <div class="panel-body">
+                        <!--KÉRDŐÍV VÁLASZTÓ-->
+                        <ul>
+                            <li ng-repeat="oneQuestionnaire in allQuestionnaires">{{oneQuestionnaire.name}}</li>
+                        </ul>
+                        <div class="form-group">
+                            <label>Popover placement</label>
+                            <select class="form-control" ng-model="placement.selected"
+                                    ng-options="o as o for o in placement.options"></select>
+                        </div>
+
+                        <!--KÉRDŐÍV FELVEVŐ-->
+                        <button type="button" class="btn btn-danger" ng-click="isCollapsed = !isCollapsed">
+                            Új kérdőív felvétele
+                        </button>
+                        <div uib-collapse="isCollapsed">
+                            <div class="well well-lg">
+                                <form name="questionnaireForm" ng-submit="submitForm()" novalidate>
+                                    <div class="form-group" ng-class="{ 'has-error' : questionnaireForm.name.$invalid && !questionnaireForm.name.$pristine }">
+                                        <label>
+                                            Kérdőív elnevezése:
+                                        </label>
+                                        <input type="text" name="name" class="form-control" ng-model="questionnaire.name" required>
+                                        <p ng-show="questionnaireForm.name.$invalid && !questionnaireForm.name.$pristine"
+                                           class="help-block">Kérdőív elnevezés megadása kötelező!</p>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            Leírás:
+                                        </label>
+                                        <input type="text" name="description" class="form-control" ng-model="questionnaire.description">
+                                    </div>
+                                    <div class="form-group">
+                                        <div ng-controller="PopoverDemoCtrl">
+                                            <label>Vonatkozó termék</label>
+                                            <select class="form-control" ng-model="placement.selected"
+                                                    ng-options="o as o for o in placement.options"></select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" ng-repeat="question in questions">{{question.name}}
+                                        <button ng-click="removeQuestion($index)">-</button>
+                                        <ul>
+                                            <li ng-repeat="answer in question.answers">{{answer}}
+                                                <button ng-click="removeAnswer($parent.$index, $index)">-</button>
+                                            </li>
+                                            <input class="form-control" ng-model="answerName"
+                                                   placeholder="lehetséges válasz">
+                                            <button ng-click="addAnswer(answerName, $index)">+</button>
+                                        </ul>
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="form-control" ng-model="questionName" placeholder="lehetséges kérdés">
+                                        <button ng-click="addQuestion(questionName)">+</button>
+                                    </div>
+                                    <input type="submit" class="btn btn-default" ng-disabled="questionnaireForm.$invalid" value="Mentés">
+                                </form>
                             </div>
 
-                            <div class="form-group" ng-repeat="question in questions">{{question.name}}
-                                <button ng-click="removeQuestion($index)">-</button>
-                                <ul>
-                                    <li ng-repeat="answer in question.answers">{{answer}}
-                                        <button ng-click="removeAnswer($parent.$index, $index)">-</button>
-                                    </li>
-                                    <input class="form-control" ng-model="answerName"
-                                           placeholder="lehetséges válasz">
-                                    <button ng-click="addAnswer(answerName, $index)">+</button>
-                                </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--KÉRDŐÍV ELŐNÉZET-->
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Előnézet</h3>
+                    </div>
+                    <div class="panel-body">
+                        <h4>Kitöltendő kérdőív: {{questionnaire.name}}</h4>
+                        <h6>{{questionnaire.description}}</h6>
+                        <div ng-repeat="question in questions">
+                            <label>{{$index+1}}. kérdés: {{question.name}}</label>
+                            <div ng-repeat="answer in question.answers">
+                                <!--<input type="radio" ng-model=answer name=answer value="{{answer}}"> {{answer}}-->
+                                <input type="radio" name="question{{$parent.$index}}"
+                                       value="{{answer}}{{$parent.$index}}"
+                                       ng-model="question.selectedAnswer"
+                                       ng-value="{{answer}}"/>  {{answer}}
                             </div>
-                            <div class="form-group">
-                                <input class="form-control" ng-model="questionName" placeholder="lehetséges kérdés">
-                                <button ng-click="addQuestion(questionName)">+</button>
-                            </div>
-                            <input class="btn btn-default" type="submit" value="Mentés">
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
-            <h4>Előnézet</h4>
-        </div>
     </div>
-
-
     <div ng-controller="myCtrl">
         <ul>
             <li ng-repeat="x in products">{{x}}<span ng-click="removeItem($index)">×</span></li>
@@ -109,8 +139,8 @@
     </div>
 
     <p>Try to add the same item twice, and you will get an error message.</p>
-
 </div>
+
 
 <script src="lib/angular.js"></script>
 <script src="lib/angular-resource.js"></script>

@@ -3,12 +3,20 @@
  */
 
 angular.module('QuestionnaireCtrl', []).controller("QuestionnaireCtrl", function ($scope, QuestionnairesService) {
+    //$scope.name = $scope.questionnaireName;
+    //$scope.description = $scope.questionnaireDescription;
+    console.log($scope.name);
+    //console.log($scope.questionnaire.name);
+    //console.log($scope.questionnaireForm.name);
+    //console.log($scope.questionnaireForm.questionnaire.name);
+
+
     $scope.questions = [{
         'name': 'Hány éves?',
+        'selectedAnswer': '',
         'answers': ['2', '6', '100']
     }];
-
-
+    
     $scope.addQuestion = function (questionName) {
         if (!questionName) {
             return;
@@ -16,15 +24,19 @@ angular.module('QuestionnaireCtrl', []).controller("QuestionnaireCtrl", function
         if ($scope.questions.length == 0) {
             $scope.questions = [{
                 'name': questionName,
+                'selectedAnswer': '',
                 'answers': []
             }]
         }
         else if ($scope.questions.indexOf(questionName) == -1) {
             $scope.questions.push({
                 'name': questionName,
+                'selectedAnswer': '',
                 'answers': []
             });
         }
+        $scope.questionName='';
+
     }
 
     $scope.removeQuestion = function (questionIndex) {
@@ -41,6 +53,7 @@ angular.module('QuestionnaireCtrl', []).controller("QuestionnaireCtrl", function
         if ($scope.questions.indexOf($scope.answerName) == -1) {
             $scope.questions[$scope.selectedIndex].answers.push(answerName);
         }
+
     }
 
     $scope.removeAnswer = function (questionIndex, answerIndex) {
