@@ -5,6 +5,7 @@
     <!--STYLESHEETS-->
     <link href="tools/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
     <link href="tools/bootstrap/css/bootstrap-theme.css" rel="stylesheet" type="text/css"/>
+    <link href="css/editInPlace.css" rel="stylesheet" type="text/css"/>
 </head>
 
 
@@ -82,15 +83,17 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group" ng-repeat="question in questions">{{question.name}}
+                                    <div class="form-group" ng-repeat="question in questions">
+                                        <edit-in-place value="question.name"></edit-in-place>
                                         <button ng-click="removeQuestion($index)">-</button>
                                         <ul>
-                                            <li ng-repeat="answer in question.answers">{{answer}}
+                                            <li ng-repeat="answer in question.answers">
+                                                <edit-in-place value="answer"></edit-in-place>
                                                 <button ng-click="removeAnswer($parent.$index, $index)">-</button>
                                             </li>
                                             <input class="form-control" ng-model="answerName"
                                                    placeholder="lehetséges válasz">
-                                            <button ng-click="addAnswer(answerName, $index)">+</button>
+                                            <button ng-click="addAnswer($index)">+</button>
                                         </ul>
                                     </div>
                                     <div class="form-group">
@@ -151,6 +154,9 @@
 <script src="app/controllers/QuestionnaireCtrl.js"></script>
 <script src="app/controllers/PopoverDemoCtrl.js"></script>
 <script src="app/controllers/myCtrl.js"></script>
+
+<!--DIRECTIVES-->
+<script src="app/directives/EditInPlace.js"></script>
 
 <!--SERVICES-->
 <script src="app/services/QuestionnairesService.js"></script>

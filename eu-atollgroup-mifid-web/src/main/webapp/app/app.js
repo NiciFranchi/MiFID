@@ -8,4 +8,5 @@ angular.module("mainApp", ['ngResource'
     ,'mainApp.services'
     ,'QuestionnaireCtrl'
     ,'PopoverDemoCtrl'
-    ,'myCtrl']);
+    ,'myCtrl'
+    ,'editInPlace']);
