@@ -16,13 +16,16 @@ angular.module('editInPlace', []).directive('editInPlace', function() {
 
             // Initially, we're not editing.
             $scope.editing = false;
+            console.log(element.html());
 
             // ng-click handler to activate edit-in-place
             $scope.edit = function () {
+                console.log(this.value);
                 $scope.editing = true;
 
                 // We control display through a class on the directive itself. See the CSS.
                 element.addClass( 'active' );
+
 
                 // And we must focus the element.
                 // `angular.element()` provides a chainable array, like jQuery so to access a native DOM function,
@@ -32,8 +35,18 @@ angular.module('editInPlace', []).directive('editInPlace', function() {
 
             // When we leave the input, we're done editing.
             inputElement.prop( 'onblur', function() {
+                //console.log(this.value);
                 $scope.editing = false;
                 element.removeClass( 'active' );
+                
+                if($scope.$parent.answer != null){
+                    console.log("előtte");
+                    console.log($scope.$parent.$parent.question.answers[$scope.$parent.index]);
+                    console.log(this.value);
+                    $scope.$parent.$parent.question.answers[$scope.$parent.$index]=this.value;
+                    console.log("utána");
+                    console.log($scope.$parent.$parent.question.answers[$scope.$parent.index]);
+                }
             });
         }
     };

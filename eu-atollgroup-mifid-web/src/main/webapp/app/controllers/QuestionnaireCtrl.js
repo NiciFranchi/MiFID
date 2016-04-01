@@ -10,6 +10,8 @@ angular.module('QuestionnaireCtrl', []).controller("QuestionnaireCtrl", function
     }];
     
     $scope.addQuestion = function (questionName) {
+        console.log($scope.questions);
+        
         if (!questionName) {
             return;
         }
@@ -39,14 +41,14 @@ angular.module('QuestionnaireCtrl', []).controller("QuestionnaireCtrl", function
     $scope.addAnswer = function (questionIndex) {
         $scope.selectedIndex = questionIndex;
 
-        console.log("answerName = ", $scope.answerName)
-        console.log("selectedIndex = ", $scope.selectedIndex)
+        console.log("this.answerName = ", this.answerName);
+        console.log("answerName = ", $scope.answerName);
+        console.log("selectedIndex = ", $scope.selectedIndex);
 
         if ($scope.questions.indexOf($scope.answerName) == -1) {
-            $scope.questions[$scope.selectedIndex].answers.push($scope.answerName);
+            $scope.questions[$scope.selectedIndex].answers.push(this.answerName);
         }
-        $scope.answerName='';
-
+        this.answerName='';
     }
 
     $scope.removeAnswer = function (questionIndex, answerIndex) {
