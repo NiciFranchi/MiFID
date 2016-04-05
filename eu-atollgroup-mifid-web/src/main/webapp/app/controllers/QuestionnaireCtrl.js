@@ -3,15 +3,18 @@
  */
 
 angular.module('QuestionnaireCtrl', []).controller("QuestionnaireCtrl", function ($scope, QuestionnairesService) {
+    $scope.isCollapsed = true;
+    
     $scope.questions = [{
         'name': 'Hány éves?',
         'selectedAnswer': '',
-        'answers': ['2', '6', '100', '14']
+        'answers': [
+            {'name': '1111'},
+            {'name': '2222'}
+        ]
     }];
     
     $scope.addQuestion = function (questionName) {
-        console.log($scope.questions);
-        
         if (!questionName) {
             return;
         }
@@ -30,7 +33,6 @@ angular.module('QuestionnaireCtrl', []).controller("QuestionnaireCtrl", function
             });
         }
         $scope.questionName='';
-
     }
 
     $scope.removeQuestion = function (questionIndex) {
@@ -41,12 +43,8 @@ angular.module('QuestionnaireCtrl', []).controller("QuestionnaireCtrl", function
     $scope.addAnswer = function (questionIndex) {
         $scope.selectedIndex = questionIndex;
 
-        console.log("this.answerName = ", this.answerName);
-        console.log("answerName = ", $scope.answerName);
-        console.log("selectedIndex = ", $scope.selectedIndex);
-
         if ($scope.questions.indexOf($scope.answerName) == -1) {
-            $scope.questions[$scope.selectedIndex].answers.push(this.answerName);
+            $scope.questions[$scope.selectedIndex].answers.push({'name' : this.answerName});
         }
         this.answerName='';
     }
@@ -57,18 +55,23 @@ angular.module('QuestionnaireCtrl', []).controller("QuestionnaireCtrl", function
         $scope.questions[$scope.selectedQuestionIndex].answers.splice(answerIndex, 1);
     }
 
-
     var questionnaireNames = [];
-    $scope.isCollapsed = true;
-
     $scope.allQuestionnaires = QuestionnairesService.query(function () {
+        questionnaireNames.push("");
         for (var i = 0; i < $scope.allQuestionnaires.length; i++) {
             questionnaireNames.push($scope.allQuestionnaires[i].name);
         }
     });
 
-    $scope.placement = {
+    $scope.questionnaire = {
         options: questionnaireNames,
-        selected: questionnaireNames[0]
+        selected: ""
     };
+
+    $scope.update = function() {
+        if($scope.questionnaire.selected != ''){
+            $scope.isCollapsed = false;
+        }
+    }
+    
 });

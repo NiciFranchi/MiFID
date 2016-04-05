@@ -5,7 +5,6 @@
     <!--STYLESHEETS-->
     <link href="tools/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
     <link href="tools/bootstrap/css/bootstrap-theme.css" rel="stylesheet" type="text/css"/>
-    <link href="css/editInPlace.css" rel="stylesheet" type="text/css"/>
 </head>
 
 
@@ -19,7 +18,7 @@
     </div>
     <!--NAVBAR-->
     <ul class="nav nav-tabs">
-        <li role="presentation" class="active"><a href="#">Kérdőív felvétele</a></li>
+        <li role="presentation" class="active"><a href="#">Kérdőív szerkesztése</a></li>
         <li role="presentation"><a href="#">Valami</a></li>
         <li role="presentation"><a href="#">Valami</a></li>
         <li role="presentation" class="dropdown">
@@ -38,26 +37,36 @@
     <div ng-controller="QuestionnaireCtrl">
         <div class="row">
             <!--KÉRDŐÍV SZERKESZTŐ-->
-            <div class="col-md-4">
+            <div class="col-md-5">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Kérdőívek szerkesztése</h3>
+                        <h3 class="panel-title">Kérdőívek</h3>
                     </div>
                     <div class="panel-body">
                         <!--KÉRDŐÍV VÁLASZTÓ-->
                         <ul>
                             <li ng-repeat="oneQuestionnaire in allQuestionnaires">{{oneQuestionnaire.name}}</li>
                         </ul>
-                        <div class="form-group">
-                            <label>Popover placement</label>
-                            <select class="form-control" ng-model="placement.selected"
-                                    ng-options="o as o for o in placement.options"></select>
+                        <div class="well well-lg">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <label>Meglévő kérdőív szerkesztése</label>
+                                        <select class="form-control" ng-model="questionnaire.selected"
+                                                ng-options="o as o for o in questionnaire.options" ng-change="update()" ng-disabled="!isCollapsed"></select>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label>VAGY</label>
+                                    </div>
+                                    <!--KÉRDŐÍV FELVEVŐ-->
+                                    <div class="col-md-3">
+                                        <button type="button" class="btn btn-danger" ng-click="isCollapsed = !isCollapsed" ng-disabled="placement.selected != ''">
+                                            Új kérdőív felvétele
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-
-                        <!--KÉRDŐÍV FELVEVŐ-->
-                        <button type="button" class="btn btn-danger" ng-click="isCollapsed = !isCollapsed">
-                            Új kérdőív felvétele
-                        </button>
                         <div uib-collapse="isCollapsed">
                             <div class="well well-lg">
                                 <form name="questionnaireForm" ng-submit="submitForm()" novalidate>
@@ -83,22 +92,46 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group" ng-repeat="question in questions">
-                                        <edit-in-place value="question.name"></edit-in-place>
-                                        <button ng-click="removeQuestion($index)">-</button>
-                                        <ul>
-                                            <li ng-repeat="answer in question.answers">
-                                                <edit-in-place value="answer"></edit-in-place>
-                                                <button ng-click="removeAnswer($parent.$index, $index)">-</button>
-                                            </li>
-                                            <input class="form-control" ng-model="answerName"
-                                                   placeholder="lehetséges válasz">
-                                            <button ng-click="addAnswer($index)">+</button>
-                                        </ul>
-                                    </div>
                                     <div class="form-group">
-                                        <input class="form-control" ng-model="questionName" placeholder="lehetséges kérdés">
-                                        <button ng-click="addQuestion(questionName)">+</button>
+                                        <label>Lehetséges kérdések és válaszok</label>
+                                        <div class="form-group" ng-repeat="question in questions">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" ng-model="question.name">
+                                                <div class="input-group-btn">
+                                                    <button type="button" ng-click="removeQuestion($index)" class="btn btn-danger">Törlés</button>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-1">
+                                                </div>
+                                                <div class="col-md-11">
+                                                    <div class="input-group" ng-repeat="answer in question.answers">
+                                                        <input type="text" class="form-control input-sm" ng-model="answer.name">
+                                                        <div class="input-group-btn">
+                                                            <button type="button" ng-click="removeAnswer($parent.$index, $index)" class="btn btn-danger btn-sm">
+                                                                Törlés
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control input-sm" ng-model="answerName"
+                                                               placeholder="lehetséges válasz">
+                                                        <div class="input-group-btn">
+                                                            <button type="button" class="btn btn-default btn-sm" ng-click="addAnswer($index)">Hozzáad</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" ng-model="questionName" placeholder="lehetséges kérdés">
+                                                <div class="input-group-btn">
+                                                    <button type="button" ng-click="addQuestion(questionName)" class="btn btn-default">Hozzáad</button>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <input type="submit" class="btn btn-default" ng-disabled="questionnaireForm.$invalid" value="Mentés">
                                 </form>
@@ -109,7 +142,7 @@
                 </div>
             </div>
             <!--KÉRDŐÍV ELŐNÉZET-->
-            <div class="col-md-4">
+            <div class="col-md-5">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">Előnézet</h3>
@@ -120,11 +153,10 @@
                         <div ng-repeat="question in questions">
                             <label>{{$index+1}}. kérdés: {{question.name}}</label>
                             <div ng-repeat="answer in question.answers">
-                                <!--<input type="radio" ng-model=answer name=answer value="{{answer}}"> {{answer}}-->
                                 <input type="radio" name="question{{$parent.$index}}"
                                        value="{{answer}}{{$parent.$index}}"
                                        ng-model="question.selectedAnswer"
-                                       ng-value="{{answer}}"/>  {{answer}}
+                                       ng-value="{{answer.name}}"/> {{answer.name}}
                             </div>
                         </div>
                     </div>
@@ -148,16 +180,13 @@
 <script src="lib/angular.js"></script>
 <script src="lib/angular-resource.js"></script>
 <script src="lib/angular-animate.js"></script>
+<script src="lib/angular-route.js"></script>
 <script src="app/app.js"></script>
 <!--CONTROLLERS-->
 <script src="app/controllers/CollapseDemoCtrl.js"></script>
 <script src="app/controllers/QuestionnaireCtrl.js"></script>
 <script src="app/controllers/PopoverDemoCtrl.js"></script>
 <script src="app/controllers/myCtrl.js"></script>
-
-<!--DIRECTIVES-->
-<script src="app/directives/EditInPlace.js"></script>
-
 <!--SERVICES-->
 <script src="app/services/QuestionnairesService.js"></script>
 <!--jQuery-->
