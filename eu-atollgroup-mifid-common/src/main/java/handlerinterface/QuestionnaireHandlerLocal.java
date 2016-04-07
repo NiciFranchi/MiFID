@@ -14,4 +14,8 @@ public interface QuestionnaireHandlerLocal {
     List<Questionnaire> getQuestionnaires();
 
     void addQuestionnaire(String name, String authorFirstName, String authorLastName, Date date);
+
+    void addQuestionnaire(Questionnaire questionnaire);
+
+    Questionnaire getQuestionnaire(Long id);
 }

@@ -1,5 +1,7 @@
 package entity;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -8,6 +10,7 @@ import java.util.List;
  */
 
 @Entity
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class Question {
     @Id
     @GeneratedValue
@@ -18,8 +21,8 @@ public class Question {
     private String name;
     private String description;
 
-    @OneToMany
-    private List<Answer> answer;
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Answer> answers;
 
     public Question(){
     }
@@ -55,11 +58,12 @@ public class Question {
         this.description = description;
     }
 
-    public List<Answer> getAnswer() {
-        return answer;
+    public List<Answer> getAnswers() {
+        return answers;
     }
 
-    public void setAnswer(List<Answer> answer) {
-        this.answer = answer;
+    public void setAnswers(List<Answer> answers) {
+        this.answers = answers;
     }
+
 }

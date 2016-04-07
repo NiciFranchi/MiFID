@@ -6,12 +6,12 @@ angular.module('QuestionnaireCtrl', []).controller("QuestionnaireCtrl", function
     $scope.isCollapsed = true;
 
     $scope.questionnaire = {
+        id: '',
         name: '',
         description: '',
-        product: '',
         questions: [{
             name: 'Hány éves?',
-            selectedAnswer: '',
+            description: '',
             answers: [
                 {name: '1111'},
                 {name: '2222'}
@@ -19,25 +19,29 @@ angular.module('QuestionnaireCtrl', []).controller("QuestionnaireCtrl", function
         }]
     }
 
-
+    
+    
     $scope.addQuestion = function (questionName) {
+        console.log($scope.questionnaire);
+        console.log($scope.preview);
+
         if (!questionName) {
             return;
         }
-        console.log($scope.questionnaire);
-        console.log($scope.questionnaire.questions);
         if ($scope.questionnaire.questions.length == 0) {
             $scope.questionnaire.questions = [{
-                'name': questionName,
-                'selectedAnswer': '',
-                'answers': []
+                id: '',
+                name: questionName,
+                description:'',
+                answers: []
             }]
         }
         else if ($scope.questionnaire.questions.indexOf(questionName) == -1) {
             $scope.questionnaire.questions.push({
-                'name': questionName,
-                'selectedAnswer': '',
-                'answers': []
+                id: '',
+                name: questionName,
+                description:'',
+                answers: []
             });
         }
         $scope.questionName = '';
@@ -76,13 +80,29 @@ angular.module('QuestionnaireCtrl', []).controller("QuestionnaireCtrl", function
         selected: ""
     };
 
+    $scope.valami = $scope.questionnaire;
+
     $scope.selectUpdate = function () {
         if ($scope.quest.selected != '') {
             $scope.isCollapsed = false;
             $scope.questionnaire.name = $scope.quest.selected;
 
+            $scope.allQuestionnaires = QuestionnairesService.query(function () {
+                for (var i = 0; i < $scope.allQuestionnaires.length; i++) {
+                    if($scope.allQuestionnaires[i].name == $scope.questionnaire.name){
+                        $scope.valami = QuestionnairesService.get({id: $scope.allQuestionnaires[i].id});
+                    }
+                }
+            });
+
             $scope.quest.selected = '';
+            $scope.$apply();
         }
     }
+
+    $scope.submitQuestionnaireForm = function () {
+        QuestionnairesService.save($scope.questionnaire);
+    };
+
 
 });

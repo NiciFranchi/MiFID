@@ -42,6 +42,16 @@ public class QuestionnaireHandler implements QuestionnaireHandlerLocal {
         questionnaireFacade.create(questionnaire);
     }
 
+    @Override
+    public void addQuestionnaire(Questionnaire questionnaire) {
+        questionnaireFacade.create(questionnaire);
+    }
+
+    @Override
+    public Questionnaire getQuestionnaire(Long id){
+        return questionnaireFacade.find(id);
+    }
+
 
     public void addAnswer(Long questionId, String name) {
         Question question = questionFacade.find(questionId);

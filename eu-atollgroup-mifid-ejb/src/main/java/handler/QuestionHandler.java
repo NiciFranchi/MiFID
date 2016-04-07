@@ -7,8 +7,6 @@ import entity.Questionnaire;
 import handlerinterface.QuestionHandlerLocal;
 
 import javax.ejb.EJB;
-import java.util.AbstractList;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,6 +29,6 @@ public class QuestionHandler implements QuestionHandlerLocal {
     @Override
     public List<Question> getQuestions(Long questionnaireId) {
         Questionnaire questionnaire = questionnaireFacade.find(questionnaireId);
-        return questionnaire.getQuestionList();
+        return questionnaire.getQuestions();
     }
 }

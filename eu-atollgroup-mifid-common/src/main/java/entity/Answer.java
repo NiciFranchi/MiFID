@@ -1,5 +1,7 @@
 package entity;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -9,6 +11,7 @@ import javax.persistence.ManyToOne;
  * Created by u95599 on 2016.03.08.
  */
 @Entity
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class Answer {
     @Id
     @GeneratedValue

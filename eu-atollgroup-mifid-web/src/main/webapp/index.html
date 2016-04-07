@@ -5,6 +5,7 @@
     <!--STYLESHEETS-->
     <link href="tools/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
     <link href="tools/bootstrap/css/bootstrap-theme.css" rel="stylesheet" type="text/css"/>
+    <title>MiFID kérdőív rendszer</title>
 </head>
 
 
@@ -69,7 +70,7 @@
                         </div>
                         <div uib-collapse="isCollapsed">
                             <div class="well well-lg">
-                                <form name="questionnaireForm" ng-submit="submitForm()" novalidate>
+                                <form name="questionnaireForm" ng-submit="submitQuestionnaireForm()" novalidate>
                                     <div class="form-group" ng-class="{ 'has-error' : questionnaireForm.name.$invalid && !questionnaireForm.name.$pristine }">
                                         <label>Kérdőív elnevezése:</label>
                                         <input type="text" name="name" class="form-control" ng-model="questionnaire.name" required>

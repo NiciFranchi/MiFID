@@ -1,24 +1,28 @@
 package entity;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 import javax.persistence.*;
-import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
 import java.util.List;
 
 @Entity
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class Questionnaire {
     @Id
     @GeneratedValue
     private Long id;
 
     private String name;
+    private String description;
     private String authorFirstName;
     private String authorLastName;
     @Temporal(TemporalType.DATE)
     private Date dateOfCreation;
 
-    @OneToMany
-    private List<Question> questionList;
+    @OneToMany(mappedBy = "questionnaire", cascade = CascadeType.ALL, orphanRemoval = true)
+    //@JsonDeserialize(as=ArrayList.class, contentAs=Question.class)
+    private List<Question> questions;
 
     @OneToOne
     private Product product;
@@ -65,12 +69,12 @@ public class Questionnaire {
         this.dateOfCreation = dateOfCreation;
     }
 
-    public List<Question> getQuestionList() {
-        return questionList;
+    public List<Question> getQuestions() {
+        return questions;
     }
 
-    public void setQuestionList(List<Question> questionList) {
-        this.questionList = questionList;
+    public void setQuestions(List<Question> questions) {
+        this.questions = questions;
     }
 
     public Product getProduct() {
@@ -79,6 +83,14 @@ public class Questionnaire {
 
     public void setProduct(Product product) {
         this.product = product;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Long getId() {
