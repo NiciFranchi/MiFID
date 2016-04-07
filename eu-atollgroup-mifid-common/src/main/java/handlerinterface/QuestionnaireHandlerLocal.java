@@ -12,5 +12,6 @@ import java.util.List;
 @Local
 public interface QuestionnaireHandlerLocal {
     List<Questionnaire> getQuestionnaires();
+
     void addQuestionnaire(String name, String authorFirstName, String authorLastName, Date date);
 }

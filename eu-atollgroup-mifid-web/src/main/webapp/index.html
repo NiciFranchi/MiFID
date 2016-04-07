@@ -52,15 +52,15 @@
                                 <div class="row">
                                     <div class="col-md-8">
                                         <label>Meglévő kérdőív szerkesztése</label>
-                                        <select class="form-control" ng-model="questionnaire.selected"
-                                                ng-options="o as o for o in questionnaire.options" ng-change="update()" ng-disabled="!isCollapsed"></select>
+                                        <select class="form-control" ng-model="quest.selected"
+                                                ng-options="o as o for o in quest.options" ng-change="selectUpdate()" ng-disabled="!isCollapsed"></select>
                                     </div>
                                     <div class="col-md-1">
                                         <label>VAGY</label>
                                     </div>
                                     <!--KÉRDŐÍV FELVEVŐ-->
                                     <div class="col-md-3">
-                                        <button type="button" class="btn btn-danger" ng-click="isCollapsed = !isCollapsed" ng-disabled="placement.selected != ''">
+                                        <button type="button" class="btn btn-danger" ng-click="isCollapsed = !isCollapsed" ng-disabled="!isCollapsed">
                                             Új kérdőív felvétele
                                         </button>
                                     </div>
@@ -71,9 +71,7 @@
                             <div class="well well-lg">
                                 <form name="questionnaireForm" ng-submit="submitForm()" novalidate>
                                     <div class="form-group" ng-class="{ 'has-error' : questionnaireForm.name.$invalid && !questionnaireForm.name.$pristine }">
-                                        <label>
-                                            Kérdőív elnevezése:
-                                        </label>
+                                        <label>Kérdőív elnevezése:</label>
                                         <input type="text" name="name" class="form-control" ng-model="questionnaire.name" required>
                                         <p ng-show="questionnaireForm.name.$invalid && !questionnaireForm.name.$pristine"
                                            class="help-block">Kérdőív elnevezés megadása kötelező!</p>
@@ -94,7 +92,7 @@
 
                                     <div class="form-group">
                                         <label>Lehetséges kérdések és válaszok</label>
-                                        <div class="form-group" ng-repeat="question in questions">
+                                        <div class="form-group" ng-repeat="question in questionnaire.questions">
                                             <div class="input-group">
                                                 <input type="text" class="form-control" ng-model="question.name">
                                                 <div class="input-group-btn">
@@ -134,6 +132,7 @@
                                         </div>
                                     </div>
                                     <input type="submit" class="btn btn-default" ng-disabled="questionnaireForm.$invalid" value="Mentés">
+                                    <button type="button" class="btn btn-default" ng-click="isCollapsed = true">Mégse</button>
                                 </form>
                             </div>
 
@@ -150,7 +149,7 @@
                     <div class="panel-body">
                         <h4>Kitöltendő kérdőív: {{questionnaire.name}}</h4>
                         <h6>{{questionnaire.description}}</h6>
-                        <div ng-repeat="question in questions">
+                        <div ng-repeat="question in questionnaire.questions">
                             <label>{{$index+1}}. kérdés: {{question.name}}</label>
                             <div ng-repeat="answer in question.answers">
                                 <input type="radio" name="question{{$parent.$index}}"

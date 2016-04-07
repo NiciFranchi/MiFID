@@ -49,11 +49,6 @@ public class QuestionnaireHandler implements QuestionnaireHandlerLocal {
         answerFacade.create(answer);
     }
 
-    public List<Question> getAllQuestions() {
-        return questionFacade.findAll();
-    }
 
-    public List<Questionnaire> getAllQuestionaries() {
-        return questionnaireFacade.findAll();
-    }
+
 }
