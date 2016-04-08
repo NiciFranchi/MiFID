@@ -3,11 +3,13 @@ package entity;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Entity
 @JsonIgnoreProperties(ignoreUnknown=true)
+@javax.persistence.Table(name = "QUESTIONNAIRES")
 public class Questionnaire {
     @Id
     @GeneratedValue
@@ -20,7 +22,7 @@ public class Questionnaire {
     @Temporal(TemporalType.DATE)
     private Date dateOfCreation;
 
-    @OneToMany(mappedBy = "questionnaire", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "questionnaire", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     //@JsonDeserialize(as=ArrayList.class, contentAs=Question.class)
     private List<Question> questions;
 
@@ -32,9 +34,11 @@ public class Questionnaire {
         this.authorFirstName = authorFirstName;
         this.authorLastName = authorLastName;
         this.dateOfCreation = dateOfCreation;
+        this.questions= new ArrayList<>();
     }
 
     public Questionnaire() {
+        this.questions= new ArrayList<>();
     }
 
     public String getName() {
@@ -69,14 +73,6 @@ public class Questionnaire {
         this.dateOfCreation = dateOfCreation;
     }
 
-    public List<Question> getQuestions() {
-        return questions;
-    }
-
-    public void setQuestions(List<Question> questions) {
-        this.questions = questions;
-    }
-
     public Product getProduct() {
         return product;
     }
@@ -95,5 +91,14 @@ public class Questionnaire {
 
     public Long getId() {
         return id;
+    }
+
+    public List<Question> getQuestions() {
+        return questions;
+    }
+
+    public void addQuestion(Question question){
+        question.setQuestionnaire(this);
+        this.questions.add(question);
     }
 }

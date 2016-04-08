@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
  */
 @Entity
 @JsonIgnoreProperties(ignoreUnknown=true)
+@javax.persistence.Table(name = "ANSWERS")
 public class Answer {
     @Id
     @GeneratedValue

@@ -10,6 +10,7 @@ import java.util.List;
  * Created by u95599 on 2016.03.08.
  */
 @Entity
+@javax.persistence.Table(name = "PRODUCTS")
 public class Product {
     @Id
     @GeneratedValue

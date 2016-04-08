@@ -6,10 +6,11 @@ angular.module('QuestionnaireCtrl', []).controller("QuestionnaireCtrl", function
     $scope.isCollapsed = true;
 
     $scope.questionnaire = {
-        id: '',
+        //id: '',
         name: '',
         description: '',
         questions: [{
+            //id: '',
             name: 'Hány éves?',
             description: '',
             answers: [
@@ -30,7 +31,7 @@ angular.module('QuestionnaireCtrl', []).controller("QuestionnaireCtrl", function
         }
         if ($scope.questionnaire.questions.length == 0) {
             $scope.questionnaire.questions = [{
-                id: '',
+                //id: '',
                 name: questionName,
                 description:'',
                 answers: []
@@ -38,7 +39,7 @@ angular.module('QuestionnaireCtrl', []).controller("QuestionnaireCtrl", function
         }
         else if ($scope.questionnaire.questions.indexOf(questionName) == -1) {
             $scope.questionnaire.questions.push({
-                id: '',
+                //id: '',
                 name: questionName,
                 description:'',
                 answers: []
@@ -90,14 +91,16 @@ angular.module('QuestionnaireCtrl', []).controller("QuestionnaireCtrl", function
             $scope.allQuestionnaires = QuestionnairesService.query(function () {
                 for (var i = 0; i < $scope.allQuestionnaires.length; i++) {
                     if($scope.allQuestionnaires[i].name == $scope.questionnaire.name){
-                        $scope.valami = QuestionnairesService.get({id: $scope.allQuestionnaires[i].id});
+                        $scope.questionnaire.id = $scope.allQuestionnaires[i].id;
+                        $scope.questionnaire.name = $scope.allQuestionnaires[i].name;
+                        $scope.questionnaire.description = $scope.allQuestionnaires[i].description;
+                        $scope.questionnaire.questions = $scope.allQuestionnaires[i].questions;
                     }
                 }
             });
-
-            $scope.quest.selected = '';
-            $scope.$apply();
         }
+        $scope.quest.selected = '';
+        $scope.$apply();
     }
 
     $scope.submitQuestionnaireForm = function () {

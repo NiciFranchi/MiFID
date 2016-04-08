@@ -1,5 +1,6 @@
 package entity;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -11,17 +12,20 @@ import java.util.List;
 
 @Entity
 @JsonIgnoreProperties(ignoreUnknown=true)
+@javax.persistence.Table(name = "QUESTIONS")
 public class Question {
     @Id
     @GeneratedValue
     private long id;
 
     @ManyToOne
+    @JsonIgnore
     private Questionnaire questionnaire;
+
     private String name;
     private String description;
 
-    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "question", cascade = CascadeType.ALL)
     private List<Answer> answers;
 
     public Question(){
@@ -29,6 +33,12 @@ public class Question {
 
 
     public Question(Questionnaire questionnaire, String name, String description) {
+        this.questionnaire = questionnaire;
+        this.name = name;
+        this.description = description;
+    }
+
+    public Question(String name, String description) {
         this.questionnaire = questionnaire;
         this.name = name;
         this.description = description;
@@ -64,6 +74,11 @@ public class Question {
 
     public void setAnswers(List<Answer> answers) {
         this.answers = answers;
+    }
+
+    public void addAnswer(Answer answer){
+        answer.setQuestion(this);
+        this.answers.add(answer);
     }
 
 }

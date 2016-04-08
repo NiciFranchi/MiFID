@@ -1,5 +1,6 @@
 package restservice;
 
+import entity.Question;
 import entity.Questionnaire;
 import handlerinterface.QuestionnaireHandlerLocal;
 import lookup.EJBLookup;
@@ -24,6 +25,7 @@ public class QuestionnaireService {
 
     @GET
     @Path("{id}")
+    @Produces(MediaType.APPLICATION_JSON)
     public Questionnaire getQuestionnaire(@PathParam("id") Long id) {
         QuestionnaireHandlerLocal handlerBean = EJBLookup.getInstance().getQuestionnaireHandlerLocal();
         return  handlerBean.getQuestionnaire(id);
@@ -31,10 +33,36 @@ public class QuestionnaireService {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Questionnaire saveQuestonnaire(Questionnaire questionnaire) {
-        if (questionnaire.getId() == null) {
+    public Questionnaire saveQuestonnaire(Questionnaire questionnaireFromJSON) {
+
+        Questionnaire questionnaireReturn = null;
+        if (questionnaireFromJSON.getId() == null) {
             QuestionnaireHandlerLocal handlerBean = EJBLookup.getInstance().getQuestionnaireHandlerLocal();
-            handlerBean.addQuestionnaire(questionnaire);
+            
+            Questionnaire questionnaireToSave = new Questionnaire();
+            questionnaireToSave.setName(questionnaireFromJSON.getName());
+            questionnaireToSave.setDescription(questionnaireFromJSON.getDescription());
+
+            Question questionToSave;
+            for (Question question: questionnaireFromJSON.getQuestions()) {
+                questionToSave = question;
+
+//                List<Answer> answers = question.getAnswers();
+//                for(Answer answer : answers){
+//                    questionToSave.addAnswer(answer);
+//                }
+
+                questionnaireToSave.addQuestion(questionToSave);
+            }
+
+            questionnaireReturn = questionnaireToSave;
+            handlerBean.addQuestionnaire(questionnaireToSave);
+
+//            Questionnaire questionnaire2 = new Questionnaire("Közvetlen", "András", "Bátor", new Date());
+//            Question question = new Question("Kérdés", "valami");
+//            question.setQuestionnaire(questionnaire2);
+//            questionnaire2.getQuestions().add(question);
+//            handlerBean.addQuestionnaire(questionnaire2);
 //            Person personToSave = new Person();
 //            personToSave.setName(person.getName());
 //            personToSave.setDescription(person.getDescription());
@@ -49,6 +77,6 @@ public class QuestionnaireService {
 //            person = entityManager.merge(personToUpdate);
 //        }
 
-        return questionnaire;
+        return questionnaireReturn;
     }
 }
