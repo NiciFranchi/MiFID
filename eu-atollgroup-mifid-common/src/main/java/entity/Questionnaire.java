@@ -15,6 +15,7 @@ public class Questionnaire {
     @GeneratedValue
     private Long id;
 
+    @Column(unique=true)
     private String name;
     private String description;
     private String authorFirstName;
@@ -23,7 +24,6 @@ public class Questionnaire {
     private Date dateOfCreation;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "questionnaire", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    //@JsonDeserialize(as=ArrayList.class, contentAs=Question.class)
     private List<Question> questions;
 
     @OneToOne

@@ -1,5 +1,7 @@
 package restservice;
 
+import com.google.common.collect.ImmutableList;
+import entity.Answer;
 import entity.Question;
 import entity.Questionnaire;
 import handlerinterface.QuestionnaireHandlerLocal;
@@ -35,48 +37,31 @@ public class QuestionnaireService {
     @Consumes(MediaType.APPLICATION_JSON)
     public Questionnaire saveQuestonnaire(Questionnaire questionnaireFromJSON) {
 
-        Questionnaire questionnaireReturn = null;
-        if (questionnaireFromJSON.getId() == null) {
-            QuestionnaireHandlerLocal handlerBean = EJBLookup.getInstance().getQuestionnaireHandlerLocal();
-            
-            Questionnaire questionnaireToSave = new Questionnaire();
-            questionnaireToSave.setName(questionnaireFromJSON.getName());
-            questionnaireToSave.setDescription(questionnaireFromJSON.getDescription());
+        QuestionnaireHandlerLocal handlerBean = EJBLookup.getInstance().getQuestionnaireHandlerLocal();
 
-            Question questionToSave;
-            for (Question question: questionnaireFromJSON.getQuestions()) {
-                questionToSave = question;
+        Questionnaire questionnaireToSave = new Questionnaire();
+        questionnaireToSave.setName(questionnaireFromJSON.getName());
+        questionnaireToSave.setDescription(questionnaireFromJSON.getDescription());
 
-//                List<Answer> answers = question.getAnswers();
-//                for(Answer answer : answers){
-//                    questionToSave.addAnswer(answer);
-//                }
 
-                questionnaireToSave.addQuestion(questionToSave);
+        ImmutableList<Question> questions = ImmutableList.copyOf(questionnaireFromJSON.getQuestions());
+        for (Question question: questions) {
+            Question questionToSave = question;
+            ImmutableList<Answer> answers = ImmutableList.copyOf(question.getAnswers());
+            for (Answer answer: answers) {
+                questionToSave.addAnswer(answer);
             }
+            questionnaireToSave.addQuestion(questionToSave);
 
-            questionnaireReturn = questionnaireToSave;
-            handlerBean.addQuestionnaire(questionnaireToSave);
-
-//            Questionnaire questionnaire2 = new Questionnaire("Közvetlen", "András", "Bátor", new Date());
-//            Question question = new Question("Kérdés", "valami");
-//            question.setQuestionnaire(questionnaire2);
-//            questionnaire2.getQuestions().add(question);
-//            handlerBean.addQuestionnaire(questionnaire2);
-//            Person personToSave = new Person();
-//            personToSave.setName(person.getName());
-//            personToSave.setDescription(person.getDescription());
-//            personToSave.setImageUrl(person.getImageUrl());
-//            entityManager.persist(person);
         }
-//        } else {
-//            Person personToUpdate = getPerson(person.getId());
-//            personToUpdate.setName(person.getName());
-//            personToUpdate.setDescription(person.getDescription());
-//            personToUpdate.setImageUrl(person.getImageUrl());
-//            person = entityManager.merge(personToUpdate);
-//        }
+        if (questionnaireFromJSON.getId() == null) {
 
-        return questionnaireReturn;
+            handlerBean.addQuestionnaire(questionnaireToSave);
+        }
+        else {
+            handlerBean.editQuestionnaire(questionnaireToSave);
+        }
+
+        return questionnaireToSave;
     }
 }

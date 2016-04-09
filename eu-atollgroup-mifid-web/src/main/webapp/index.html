@@ -11,6 +11,17 @@
 
 <body>
 <div ng-app="mainApp">
+    <!-- Specify a Angular controller script that binds Javascript variables to the feedback messages.-->
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div ng-controller="AlertMessagesCtrl">
+                <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}
+                </uib-alert>
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
     <!--PAGE HEADER-->
     <div class="page-header">
         <h1>MiFID
@@ -19,8 +30,8 @@
     </div>
     <!--NAVBAR-->
     <ul class="nav nav-tabs">
-        <li role="presentation" class="active"><a href="#">Kérdőív szerkesztése</a></li>
-        <li role="presentation"><a href="#">Valami</a></li>
+        <li role="presentation" class="active"><a href="#">Kérdőívek</a></li>
+        <li role="presentation"><a href="#">Termékek</a></li>
         <li role="presentation"><a href="#">Valami</a></li>
         <li role="presentation" class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
@@ -54,14 +65,16 @@
                                     <div class="col-md-8">
                                         <label>Meglévő kérdőív szerkesztése</label>
                                         <select class="form-control" ng-model="quest.selected"
-                                                ng-options="o as o for o in quest.options" ng-change="selectUpdate()" ng-disabled="!isCollapsed"></select>
+                                                ng-options="o as o for o in quest.options" ng-change="selectUpdate()"
+                                                ng-disabled="!isCollapsed"></select>
                                     </div>
                                     <div class="col-md-1">
                                         <label>VAGY</label>
                                     </div>
                                     <!--KÉRDŐÍV FELVEVŐ-->
                                     <div class="col-md-3">
-                                        <button type="button" class="btn btn-danger" ng-click="isCollapsed = !isCollapsed" ng-disabled="!isCollapsed">
+                                        <button type="button" class="btn btn-danger"
+                                                ng-click="addQuestionnaire()" ng-disabled="!isCollapsed">
                                             Új kérdőív felvétele
                                         </button>
                                     </div>
@@ -70,18 +83,26 @@
                         </div>
                         <div uib-collapse="isCollapsed">
                             <div class="well well-lg">
-                                <form name="questionnaireForm" ng-submit="submitQuestionnaireForm()" novalidate>
-                                    <div class="form-group" ng-class="{ 'has-error' : questionnaireForm.name.$invalid && !questionnaireForm.name.$pristine }">
+                                <form name="questionnaireForm" ng-submit="submitQuestionnaireForm()">
+                                    <div class="form-group"
+                                         ng-class="{ 'has-error' : questionnaireForm.name.$invalid && !questionnaireForm.name.$pristine}">
                                         <label>Kérdőív elnevezése:</label>
-                                        <input type="text" name="name" class="form-control" ng-model="questionnaire.name" required>
-                                        <p ng-show="questionnaireForm.name.$invalid && !questionnaireForm.name.$pristine"
+                                        <input type="text" name="name" class="form-control"
+                                               ng-model="questionnaire.name" questionnairenamevalidator>
+                                        <p ng-show="questionnaireForm.name.$error.duplicate && !questionnaireForm.name.$pristine"
+                                           class="help-block">Ilyen nevű kérdőív már van!</p>
+                                        <!--<p ng-show="questionnaireForm.name.$invalid && !questionnaireForm.name.$pristine"-->
+                                           <!--class="help-block">Kérdőív elnevezés megadása kötelező!</p>-->
+                                        <p ng-show="questionnaireForm.name.$error.isempty && !questionnaireForm.name.$pristine"
                                            class="help-block">Kérdőív elnevezés megadása kötelező!</p>
+
                                     </div>
                                     <div class="form-group">
                                         <label>
                                             Leírás:
                                         </label>
-                                        <input type="text" name="description" class="form-control" ng-model="questionnaire.description">
+                                        <input type="text" name="description" class="form-control"
+                                               ng-model="questionnaire.description">
                                     </div>
                                     <div class="form-group">
                                         <div ng-controller="PopoverDemoCtrl">
@@ -97,7 +118,9 @@
                                             <div class="input-group">
                                                 <input type="text" class="form-control" ng-model="question.name">
                                                 <div class="input-group-btn">
-                                                    <button type="button" ng-click="removeQuestion($index)" class="btn btn-danger">Törlés</button>
+                                                    <button type="button" ng-click="removeQuestion($index)"
+                                                            class="btn btn-danger">Törlés
+                                                    </button>
                                                 </div>
                                             </div>
 
@@ -106,18 +129,24 @@
                                                 </div>
                                                 <div class="col-md-11">
                                                     <div class="input-group" ng-repeat="answer in question.answers">
-                                                        <input type="text" class="form-control input-sm" ng-model="answer.name">
+                                                        <input type="text" class="form-control input-sm"
+                                                               ng-model="answer.name">
                                                         <div class="input-group-btn">
-                                                            <button type="button" ng-click="removeAnswer($parent.$index, $index)" class="btn btn-danger btn-sm">
+                                                            <button type="button"
+                                                                    ng-click="removeAnswer($parent.$index, $index)"
+                                                                    class="btn btn-danger btn-sm">
                                                                 Törlés
                                                             </button>
                                                         </div>
                                                     </div>
                                                     <div class="input-group">
-                                                        <input type="text" class="form-control input-sm" ng-model="answerName"
+                                                        <input type="text" class="form-control input-sm"
+                                                               ng-model="answerName"
                                                                placeholder="lehetséges válasz">
                                                         <div class="input-group-btn">
-                                                            <button type="button" class="btn btn-default btn-sm" ng-click="addAnswer($index)">Hozzáad</button>
+                                                            <button type="button" class="btn btn-default btn-sm"
+                                                                    ng-click="addAnswer($index)">Hozzáad
+                                                            </button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -125,15 +154,20 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="input-group">
-                                                <input type="text" class="form-control" ng-model="questionName" placeholder="lehetséges kérdés">
+                                                <input type="text" class="form-control" ng-model="questionName"
+                                                       placeholder="lehetséges kérdés">
                                                 <div class="input-group-btn">
-                                                    <button type="button" ng-click="addQuestion(questionName)" class="btn btn-default">Hozzáad</button>
+                                                    <button type="button" ng-click="addQuestion(questionName)"
+                                                            class="btn btn-default">Hozzáad
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <input type="submit" class="btn btn-default" ng-disabled="questionnaireForm.$invalid" value="Mentés">
-                                    <button type="button" class="btn btn-default" ng-click="isCollapsed = true">Mégse</button>
+                                    <input type="submit" class="btn btn-default"
+                                           ng-disabled="questionnaireForm.$invalid" value="Mentés">
+                                    <button type="button" class="btn btn-default" ng-click="isCollapsed = true">Mégse
+                                    </button>
                                 </form>
                             </div>
 
@@ -164,16 +198,6 @@
             </div>
         </div>
     </div>
-    <div ng-controller="myCtrl">
-        <ul>
-            <li ng-repeat="x in products">{{x}}<span ng-click="removeItem($index)">×</span></li>
-        </ul>
-        <input ng-model="addMe">
-        <button ng-click="addItem()">Add</button>
-        <p>{{errortext}}</p>
-    </div>
-
-    <p>Try to add the same item twice, and you will get an error message.</p>
 </div>
 
 
@@ -183,10 +207,11 @@
 <script src="lib/angular-route.js"></script>
 <script src="app/app.js"></script>
 <!--CONTROLLERS-->
-<script src="app/controllers/CollapseDemoCtrl.js"></script>
 <script src="app/controllers/QuestionnaireCtrl.js"></script>
+<script src="app/controllers/AlertMessagesCtrl.js"></script>
 <script src="app/controllers/PopoverDemoCtrl.js"></script>
-<script src="app/controllers/myCtrl.js"></script>
+<!--DIRECTIVES-->
+<script src="app/directives/QuestionnaireNameValidator.js"></script>
 <!--SERVICES-->
 <script src="app/services/QuestionnairesService.js"></script>
 <!--jQuery-->

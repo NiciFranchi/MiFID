@@ -1,5 +1,6 @@
 package entity;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import javax.persistence.Entity;
@@ -20,6 +21,7 @@ public class Answer {
     private String name;
 
     @ManyToOne
+    @JsonIgnore
     private Question question;
 
     public Answer(){

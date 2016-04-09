@@ -17,5 +17,9 @@ public interface QuestionnaireHandlerLocal {
 
     void addQuestionnaire(Questionnaire questionnaire);
 
+    void editQuestionnaire(Questionnaire questionnaire);
+
     Questionnaire getQuestionnaire(Long id);
+
+
 }
