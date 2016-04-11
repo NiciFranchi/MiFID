@@ -25,13 +25,13 @@ public class QuestionnaireService {
         return handlerBean.getQuestionnaires();
     }
 
-    @GET
-    @Path("{id}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Questionnaire getQuestionnaire(@PathParam("id") Long id) {
-        QuestionnaireHandlerLocal handlerBean = EJBLookup.getInstance().getQuestionnaireHandlerLocal();
-        return  handlerBean.getQuestionnaire(id);
-    }
+//    @GET
+//    @Path("{id}")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public Questionnaire getQuestionnaire(@PathParam("id") Long id) {
+//        QuestionnaireHandlerLocal handlerBean = EJBLookup.getInstance().getQuestionnaireHandlerLocal();
+//        return  handlerBean.getQuestionnaire(id);
+//    }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -63,8 +63,8 @@ public class QuestionnaireService {
     }
 
     @DELETE
-    @Path("{id}")
-    //@Consumes(MediaType.APPLICATION_JSON)
+    @Path("/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
     public void deleteQuestionnaire(@PathParam("id") Long id) {
         QuestionnaireHandlerLocal handlerBean = EJBLookup.getInstance().getQuestionnaireHandlerLocal();
         handlerBean.deleteQuestionnaire(id);

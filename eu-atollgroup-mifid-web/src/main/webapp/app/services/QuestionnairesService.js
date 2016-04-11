@@ -3,5 +3,5 @@
  */
 
 angular.module('mainApp.services',[]).factory('QuestionnairesService', function ($resource) {
-    return $resource('rest/resources/questionnaires');
+    return $resource('rest/resources/questionnaires/:id');
 });
