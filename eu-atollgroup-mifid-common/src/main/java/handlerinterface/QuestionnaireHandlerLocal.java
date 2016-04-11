@@ -21,5 +21,5 @@ public interface QuestionnaireHandlerLocal {
 
     Questionnaire getQuestionnaire(Long id);
 
-
+    void deleteQuestionnaire(Long id);
 }

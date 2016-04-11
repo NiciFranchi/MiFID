@@ -39,10 +39,7 @@ public class QuestionnaireService {
 
         QuestionnaireHandlerLocal handlerBean = EJBLookup.getInstance().getQuestionnaireHandlerLocal();
 
-        Questionnaire questionnaireToSave = new Questionnaire();
-        questionnaireToSave.setName(questionnaireFromJSON.getName());
-        questionnaireToSave.setDescription(questionnaireFromJSON.getDescription());
-
+        Questionnaire questionnaireToSave = questionnaireFromJSON;
 
         ImmutableList<Question> questions = ImmutableList.copyOf(questionnaireFromJSON.getQuestions());
         for (Question question: questions) {
@@ -54,7 +51,7 @@ public class QuestionnaireService {
             questionnaireToSave.addQuestion(questionToSave);
 
         }
-        if (questionnaireFromJSON.getId() == null) {
+        if (questionnaireToSave.getId() == null) {
 
             handlerBean.addQuestionnaire(questionnaireToSave);
         }
@@ -63,5 +60,14 @@ public class QuestionnaireService {
         }
 
         return questionnaireToSave;
+    }
+
+    @DELETE
+    @Path("{id}")
+    //@Consumes(MediaType.APPLICATION_JSON)
+    public void deleteQuestionnaire(@PathParam("id") Long id) {
+        QuestionnaireHandlerLocal handlerBean = EJBLookup.getInstance().getQuestionnaireHandlerLocal();
+        handlerBean.deleteQuestionnaire(id);
+        //return id;
     }
 }

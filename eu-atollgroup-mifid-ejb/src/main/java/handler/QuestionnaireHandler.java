@@ -23,14 +23,6 @@ public class QuestionnaireHandler implements QuestionnaireHandlerLocal {
     @EJB
     QuestionnaireFacade questionnaireFacade;
 
-    @EJB
-    QuestionFacade questionFacade;
-
-    @EJB
-    AnswerFacade answerFacade;
-
-
-
     @Override
     public List<Questionnaire> getQuestionnaires(){
         return questionnaireFacade.findAll();
@@ -53,17 +45,13 @@ public class QuestionnaireHandler implements QuestionnaireHandlerLocal {
     }
 
     @Override
+    public void deleteQuestionnaire(Long id) {
+        Questionnaire questionnaire = questionnaireFacade.find(id);
+        questionnaireFacade.remove(questionnaire);
+    }
+
+    @Override
     public void editQuestionnaire(Questionnaire questionnaire) {
         questionnaireFacade.edit(questionnaire);
     }
-
-
-    public void addAnswer(Long questionId, String name) {
-        Question question = questionFacade.find(questionId);
-        Answer answer = new Answer(question, name);
-        answerFacade.create(answer);
-    }
-
-
-
 }

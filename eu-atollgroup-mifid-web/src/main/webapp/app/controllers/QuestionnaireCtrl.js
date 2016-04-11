@@ -127,6 +127,22 @@ angular.module('QuestionnaireCtrl', []).controller("QuestionnaireCtrl", function
         $scope.questionnaireForm.$setPristine();
     };
 
+    $scope.deleteQuestionnaire = function(){
+        QuestionnairesService.delete({id: $scope.questionnaire.id}).$promise.then(
+            function () {
+                // Broadcast the event to refresh the grid.
+                $rootScope.$broadcast('refreshContent');
+                // Broadcast the event to display a save message.
+                $rootScope.$broadcast('questionnaireDeleted');
+                $scope.clearForm();
+                $scope.isCollapsed = true;
+            },
+            function () {
+                // Broadcast the event for a server error.
+                $rootScope.$broadcast('error');
+            });
+    }
+
     $scope.submitQuestionnaireForm = function () {
         QuestionnairesService.save($scope.questionnaire).$promise.then(
             function () {

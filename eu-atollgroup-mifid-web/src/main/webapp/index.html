@@ -91,8 +91,6 @@
                                                ng-model="questionnaire.name" questionnairenamevalidator>
                                         <p ng-show="questionnaireForm.name.$error.duplicate && !questionnaireForm.name.$pristine"
                                            class="help-block">Ilyen nevű kérdőív már van!</p>
-                                        <!--<p ng-show="questionnaireForm.name.$invalid && !questionnaireForm.name.$pristine"-->
-                                           <!--class="help-block">Kérdőív elnevezés megadása kötelező!</p>-->
                                         <p ng-show="questionnaireForm.name.$error.isempty && !questionnaireForm.name.$pristine"
                                            class="help-block">Kérdőív elnevezés megadása kötelező!</p>
 
@@ -167,6 +165,9 @@
                                     <input type="submit" class="btn btn-default"
                                            ng-disabled="questionnaireForm.$invalid" value="Mentés">
                                     <button type="button" class="btn btn-default" ng-click="isCollapsed = true">Mégse
+                                    </button>
+                                    <button type="button" class="btn btn-danger" ng-click="deleteQuestionnaire()">Kérdőív
+                                        törlése
                                     </button>
                                 </form>
                             </div>

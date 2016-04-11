@@ -23,7 +23,7 @@ public class Questionnaire {
     @Temporal(TemporalType.DATE)
     private Date dateOfCreation;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "questionnaire", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "questionnaire", cascade = {CascadeType.ALL}, orphanRemoval=true)
     private List<Question> questions;
 
     @OneToOne
@@ -99,6 +99,8 @@ public class Questionnaire {
 
     public void addQuestion(Question question){
         question.setQuestionnaire(this);
-        this.questions.add(question);
+        if(!this.questions.contains(question)){
+            this.questions.add(question);
+        }
     }
 }
