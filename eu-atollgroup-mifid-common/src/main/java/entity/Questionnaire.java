@@ -20,6 +20,7 @@ public class Questionnaire {
     private String description;
     private String authorFirstName;
     private String authorLastName;
+    private int minScoreToAccept;
     @Temporal(TemporalType.DATE)
     private Date dateOfCreation;
 
@@ -97,10 +98,20 @@ public class Questionnaire {
         return questions;
     }
 
+    public int getMinScoreToAccept() {
+        return minScoreToAccept;
+    }
+
+    public void setMinScoreToAccept(int minScoreToAccept) {
+        this.minScoreToAccept = minScoreToAccept;
+    }
+
     public void addQuestion(Question question){
         question.setQuestionnaire(this);
         if(!this.questions.contains(question)){
             this.questions.add(question);
         }
     }
+
+
 }

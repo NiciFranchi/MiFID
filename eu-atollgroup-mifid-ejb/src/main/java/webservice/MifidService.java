@@ -32,9 +32,6 @@ import java.util.Date;
 @Interceptors(LoggingInterceptor.class)
 public class MifidService {
 
-//    @EJB
-//    QuestionnaireHandlerLocal handlerBean;
-
     @WebMethod
     @WebResult(name = "addQuestionnaireResponse")
     public void addQuestionnaire(
@@ -51,22 +48,8 @@ public class MifidService {
             @WebParam(name = "questionnaireId") Long questionnaireId,
             @WebParam(name = "name") String name,
             @WebParam(name = "description") String description){
-
-//        QuestionnaireHandlerLocal handlerBean = null;
-//        try {
-//            handlerBean = (QuestionnaireHandlerLocal) new InitialContext().lookup("java:module/QuestionnaireHandler");
-//        } catch (NamingException e) {
-//            e.printStackTrace();
-//        }
         QuestionHandlerLocal handlerBean = EJBLookup.getInstance().getQuestionHandlerLocal();
         handlerBean.addQuestion(questionnaireId, name, description);
     }
 //
-//    @WebMethod
-//    @WebResult(name = "addAnswerResponse")
-//    public void addAnswer(
-//            @WebParam(name = "questionId") Long questionId,
-//            @WebParam(name = "name") String name){
-//        handlerBean.addAnswer(questionId, name);
-//    }
 }

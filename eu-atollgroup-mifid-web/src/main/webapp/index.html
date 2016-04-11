@@ -5,6 +5,7 @@
     <!--STYLESHEETS-->
     <link href="tools/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
     <link href="tools/bootstrap/css/bootstrap-theme.css" rel="stylesheet" type="text/css"/>
+    <link href="css/style.css" rel="stylesheet" type="text/css"/>
     <title>MiFID kérdőív rendszer</title>
 </head>
 
@@ -49,7 +50,7 @@
     <div ng-controller="QuestionnaireCtrl">
         <div class="row">
             <!--KÉRDŐÍV SZERKESZTŐ-->
-            <div class="col-md-5">
+            <div class="col-md-6">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">Kérdőívek</h3>
@@ -119,33 +120,50 @@
                                                 </div>
                                             </div>
 
-                                            <div class="row">
-                                                <div class="col-md-1">
-                                                </div>
-                                                <div class="col-md-11">
-                                                    <div class="input-group" ng-repeat="answer in question.answers">
+
+                                            <div ng-repeat="answer in question.answers">
+                                                <div class="row">
+                                                    <div class="col-md-1">
+                                                    </div>
+                                                    <div class="col-md-7 no-right-padding">
                                                         <input type="text" class="form-control input-sm"
                                                                ng-model="answer.name">
-                                                        <div class="input-group-btn">
-                                                            <button type="button"
-                                                                    ng-click="removeAnswer($parent.$index, $index)"
-                                                                    class="btn btn-danger btn-sm">
-                                                                Törlés
-                                                            </button>
-                                                        </div>
                                                     </div>
-                                                    <div class="input-group">
-                                                        <input type="text" class="form-control input-sm"
-                                                               ng-model="answerName"
-                                                               placeholder="lehetséges válasz">
-                                                        <div class="input-group-btn">
-                                                            <button type="button" class="btn btn-default btn-sm"
-                                                                    ng-click="addAnswer($index)">Hozzáad
-                                                            </button>
-                                                        </div>
+                                                    <div class="col-md-2 no-left-padding no-right-padding">
+                                                        <input type="number" name="score" class="form-control input-sm "
+                                                               ng-model="answer.score"
+                                                               placeholder="pont">
+                                                    </div>
+                                                    <div class="col-md-2 no-left-padding">
+                                                        <button type="button"
+                                                                ng-click="removeAnswer($parent.$index, $index)"
+                                                                class="btn btn-danger btn-sm">
+                                                            Törlés
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>
+
+                                            <div class="row">
+                                                <div class="col-md-1 ">
+                                                </div>
+                                                <div class="col-md-7 no-right-padding">
+                                                    <input type="text" class="form-control input-sm no-right-padding"
+                                                           ng-model="answerName"
+                                                           placeholder="lehetséges válasz">
+                                                </div>
+                                                <div class="col-md-2 no-left-padding no-right-padding">
+                                                    <input type="number" name="score" class="form-control input-sm "
+                                                           ng-model="answerScore"
+                                                           placeholder="pont">
+                                                </div>
+                                                <div class="col-md-2 no-left-padding">
+                                                    <button type="button" class="btn btn-default btn-sm"
+                                                            ng-click="addAnswer($index)">Hozzáad
+                                                    </button>
+                                                </div>
+                                            </div>
+
                                         </div>
                                         <div class="form-group">
                                             <div class="input-group">
@@ -174,7 +192,7 @@
                 </div>
             </div>
             <!--KÉRDŐÍV ELŐNÉZET-->
-            <div class="col-md-5">
+            <div class="col-md-6">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">Előnézet</h3>

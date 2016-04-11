@@ -19,6 +19,7 @@ public class Answer {
     @GeneratedValue
     private Long id;
     private String name;
+    private int score;
 
     @ManyToOne
     @JsonIgnore
@@ -46,5 +47,13 @@ public class Answer {
 
     public void setQuestion(Question question) {
         this.question = question;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 }

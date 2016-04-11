@@ -1,10 +1,6 @@
 package handler;
 
-import dal.AnswerFacade;
-import dal.QuestionFacade;
 import dal.QuestionnaireFacade;
-import entity.Answer;
-import entity.Question;
 import entity.Questionnaire;
 import handlerinterface.QuestionnaireHandlerLocal;
 
@@ -54,4 +50,6 @@ public class QuestionnaireHandler implements QuestionnaireHandlerLocal {
     public void editQuestionnaire(Questionnaire questionnaire) {
         questionnaireFacade.edit(questionnaire);
     }
+
+
 }
