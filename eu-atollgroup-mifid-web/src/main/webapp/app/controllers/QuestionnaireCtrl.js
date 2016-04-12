@@ -2,19 +2,18 @@
  * Created by u95599 on 2016.03.18.
  */
 
-angular.module('QuestionnaireCtrl', []).controller("QuestionnaireCtrl", function ($scope, $rootScope, QuestionnairesService, $http) {
+angular.module('QuestionnaireCtrl', []).controller("QuestionnaireCtrl", function ($scope, $rootScope, QuestionnairesService) {
     $scope.isCollapsed = true;
 
     $scope.allQuestionnaires = QuestionnairesService.query(function () {
     });
-
     $scope.questionnaire = {
         id: '',
         name: '',
         description: '',
+        minScoreToAccept: '',
         questions: []
     }
-
 
     $scope.questionnaireNames = [];
     QuestionnairesService.query(function (allQuestionnaires) {
@@ -64,9 +63,12 @@ angular.module('QuestionnaireCtrl', []).controller("QuestionnaireCtrl", function
         $scope.selectedIndex = questionIndex;
 
         if ($scope.questionnaire.questions.indexOf($scope.answerName) == -1) {
-            $scope.questionnaire.questions[$scope.selectedIndex].answers.push({'name': this.answerName});
+            $scope.questionnaire.questions[$scope.selectedIndex].answers.push(
+                {name: this.answerName,
+                score: this.answerScore});
         }
         this.answerName = '';
+        this.answerScore = '';
     }
 
     $scope.removeAnswer = function (questionIndex, answerIndex) {
@@ -86,6 +88,7 @@ angular.module('QuestionnaireCtrl', []).controller("QuestionnaireCtrl", function
                         $scope.questionnaire.id = allQuestionnaires[i].id;
                         $scope.questionnaire.name = allQuestionnaires[i].name;
                         $scope.questionnaire.description = allQuestionnaires[i].description;
+                        $scope.questionnaire.minScoreToAccept = allQuestionnaires[i].minScoreToAccept;
                         $scope.questionnaire.questions = allQuestionnaires[i].questions;
                     }
                 }
@@ -118,6 +121,7 @@ angular.module('QuestionnaireCtrl', []).controller("QuestionnaireCtrl", function
             id: '',
             name: '',
             description: '',
+            minScoreToAccept: '',
             questions: []
         }
 
