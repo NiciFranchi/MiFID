@@ -27,12 +27,41 @@ angular.module('QuestionnaireCtrl', []).controller("QuestionnaireCtrl", function
         options: $scope.questionnaireNames,
         selected: ""
     };
-    
-    $scope.addQuestionnaire = function(){
+
+    function getSum(questions) {
+        console.log(questions);
+        var sum=0;
+        console.log($scope.questionnaire);
+        for(var i=0; i<questions.length; i++){
+            var question = questions[i];
+            console.log(question);
+            if(question.selectedAnswer != null){
+                sum = sum + question.selectedAnswer.score;
+            }
+        }
+        return sum;
+    }
+
+    $scope.previewSumScore; //= getSum($scope.questionnaire.questions);
+
+    $scope.$watch('questionnaire.questions', function(newQuestions, oldQuestions) {
+        console.log("watcher called");
+        $scope.previewSumScore = getSum(newQuestions);
+    }, true);
+
+    // var questions = $scope.questionnaire.questions;
+    // for (var i = 0; i < questions.length; i++) {
+    //     if (questions.selectedAnswer != null) {
+    //         console.log(questions[questions.selectedAnswer]);
+    //         $scope.previewSumScore = $scope.previewSumScore + questions[questions.selectedAnswer].score;
+    //     }
+    // }
+
+    $scope.addQuestionnaire = function () {
         $scope.clearForm();
         $scope.isCollapsed = false;
     }
-    
+
     $scope.addQuestion = function (questionName) {
         if (!questionName) {
             return;
@@ -40,14 +69,14 @@ angular.module('QuestionnaireCtrl', []).controller("QuestionnaireCtrl", function
         if ($scope.questionnaire.questions.length == 0) {
             $scope.questionnaire.questions = [{
                 name: questionName,
-                description:'',
+                description: '',
                 answers: []
             }]
         }
         else if ($scope.questionnaire.questions.indexOf(questionName) == -1) {
             $scope.questionnaire.questions.push({
                 name: questionName,
-                description:'',
+                description: '',
                 answers: []
             });
         }
@@ -64,8 +93,10 @@ angular.module('QuestionnaireCtrl', []).controller("QuestionnaireCtrl", function
 
         if ($scope.questionnaire.questions.indexOf($scope.answerName) == -1) {
             $scope.questionnaire.questions[$scope.selectedIndex].answers.push(
-                {name: this.answerName,
-                score: this.answerScore});
+                {
+                    name: this.answerName,
+                    score: this.answerScore
+                });
         }
         this.answerName = '';
         this.answerScore = '';
@@ -84,7 +115,7 @@ angular.module('QuestionnaireCtrl', []).controller("QuestionnaireCtrl", function
 
             QuestionnairesService.query(function (allQuestionnaires) {
                 for (var i = 0; i < allQuestionnaires.length; i++) {
-                    if(allQuestionnaires[i].name == $scope.questionnaire.name){
+                    if (allQuestionnaires[i].name == $scope.questionnaire.name) {
                         $scope.questionnaire.id = allQuestionnaires[i].id;
                         $scope.questionnaire.name = allQuestionnaires[i].name;
                         $scope.questionnaire.description = allQuestionnaires[i].description;
@@ -100,7 +131,7 @@ angular.module('QuestionnaireCtrl', []).controller("QuestionnaireCtrl", function
         QuestionnairesService.query(function (data) {
             $scope.allQuestionnaires = data;
 
-            $scope.questionnaireNames=[];
+            $scope.questionnaireNames = [];
             $scope.questionnaireNames.push("");
             for (var i = 0; i < $scope.allQuestionnaires.length; i++) {
                 $scope.questionnaireNames.push($scope.allQuestionnaires[i].name);
@@ -131,7 +162,12 @@ angular.module('QuestionnaireCtrl', []).controller("QuestionnaireCtrl", function
         $scope.questionnaireForm.$setPristine();
     };
 
-    $scope.deleteQuestionnaire = function(){
+    $scope.cancelQuestionnaire = function () {
+        $scope.clearForm();
+        $scope.isCollapsed = true;
+    }
+
+    $scope.deleteQuestionnaire = function () {
         QuestionnairesService.delete({id: $scope.questionnaire.id}).$promise.then(
             function () {
                 // Broadcast the event to refresh the grid.

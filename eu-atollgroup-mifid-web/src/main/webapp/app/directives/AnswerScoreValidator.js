@@ -7,13 +7,13 @@ angular.module('answerscorevalidator', []).directive('answerscorevalidator', fun
         require: 'ngModel',
         link: function(scope, elm, attrs, ctrl) {
 
-            ctrl.$validators.isempty = function(modelValue, viewValue) {
-                if (ctrl.$isEmpty(modelValue)) {
-                    // consider empty models to be valid
-                    return false;
-                }
-                return true;
-            };
+            // ctrl.$validators.isempty = function(modelValue, viewValue) {
+            //     if (ctrl.$isEmpty(modelValue)) {
+            //         // consider empty models to be valid
+            //         return false;
+            //     }
+            //     return true;
+            // };
             var INTEGER_REGEXP = /^\-?\d+$/;
             ctrl.$validators.integer = function(modelValue, viewValue) {
                 if (ctrl.$isEmpty(modelValue)) {

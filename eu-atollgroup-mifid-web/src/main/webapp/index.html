@@ -135,25 +135,26 @@
                                                         <div ng-class="{'has-error' : !answer.name}">
                                                             <a href="#" uib-tooltip-html="htmlTooltip">
                                                                 <input type="text" required class="form-control input-sm"
-                                                                   ng-model="answer.name"
-                                                                   uib-tooltip="Nem maradhat üresen, ha nincs szüksége rá, törölje a válaszlehetőséget!"
-                                                                   tooltip-placement="top"
-                                                                   tooltip-trigger="mouseenter"
-                                                                   tooltip-enable="!answer.name"/>
+                                                                       ng-model="answer.name"
+                                                                       uib-tooltip="Nem maradhat üresen, ha nincs szüksége rá, törölje a válaszlehetőséget!"
+                                                                       tooltip-placement="top"
+                                                                       tooltip-trigger="mouseenter"
+                                                                       tooltip-enable="!answer.name"/>
                                                             </a>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-2 no-left-padding no-right-padding">
                                                         <div ng-class="{'has-error' : !answer.score}">
-                                                        <input type="number" required class="form-control input-sm "
-                                                               ng-model="answer.score"
-                                                               placeholder="pont"
-                                                               uib-tooltip="Nem maradhat üresen, ha nincs szüksége rá, törölje a válaszlehetőséget!"
-                                                               tooltip-placement="top"
-                                                               tooltip-trigger="mouseenter"
-                                                               tooltip-enable="!answer.score"/>
+                                                            <input type="number" required class="form-control input-sm "
+                                                                   ng-model="answer.score"
+                                                                   placeholder="pont"
+                                                                   uib-tooltip="Számot írjon be vagy törölje a sort, ha nincs szüksége rá!"
+                                                                   tooltip-placement="top"
+                                                                   tooltip-trigger="mouseenter"
+                                                                   tooltip-enable="!answer.score"/>
                                                         </div>
                                                     </div>
+
                                                     <div class="col-md-2 no-left-padding">
                                                         <button type="button"
                                                                 ng-click="removeAnswer($parent.$index, $index)"
@@ -172,11 +173,13 @@
                                                            ng-model="answerName"
                                                            placeholder="lehetséges válasz">
                                                 </div>
+
                                                 <div class="col-md-2 no-left-padding no-right-padding">
-                                                    <input type="number" class="form-control input-sm "
+                                                    <input type="number" answerscorevalidator class="form-control input-sm "
                                                            ng-model="answerScore"
                                                            placeholder="pont">
                                                 </div>
+
                                                 <div class="col-md-2 no-left-padding">
                                                     <button type="button" class="btn btn-default btn-sm"
                                                             ng-click="addAnswer($index)">Hozzáad
@@ -214,7 +217,7 @@
                                     <div class="form-group">
                                         <input type="submit" class="btn btn-default"
                                                ng-disabled="questionnaireForm.$invalid" value="Mentés">
-                                        <button type="button" class="btn btn-default" ng-click="isCollapsed = true">Mégse
+                                        <button type="button" class="btn btn-default" ng-click="cancelQuestionnaire()">Mégse
                                         </button>
                                         <button type="button" class="btn btn-danger" ng-click="deleteQuestionnaire()">Kérdőív
                                             törlése
@@ -222,34 +225,42 @@
                                     </div>
                                 </form>
                             </div>
-
                         </div>
                     </div>
                 </div>
             </div>
             <!--KÉRDŐÍV ELŐNÉZET-->
             <div class="col-md-6">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Előnézet</h3>
-                    </div>
-                    <div class="panel-body">
-                        <h4>Kitöltendő kérdőív: {{questionnaire.name}}</h4>
-                        <h6>{{questionnaire.description}}</h6>
-                        <div ng-repeat="question in questionnaire.questions">
-                            <label>{{$index+1}}. kérdés: {{question.name}}</label>
-                            <div ng-repeat="answer in question.answers">
-                                <input type="radio" name="question{{$parent.$index}}"
-                                       value="{{answer}}{{$parent.$index}}"
-                                       ng-model="question.selectedAnswer"
-                                       ng-value="{{answer.name}}"/> {{answer.name}}
+                <div uib-collapse="isCollapsed">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Előnézet</h3>
+                        </div>
+                        <div class="panel-body">
+                            <h4>Kitöltendő kérdőív: {{questionnaire.name}}</h4>
+                            <h6>{{questionnaire.description}}</h6>
+                            <div ng-repeat="question in questionnaire.questions">
+                                <label>{{$index+1}}. kérdés: {{question.name}}</label>
+                                <div ng-repeat="answer in question.answers">
+                                    <input type="radio"
+                                           ng-model="question.selectedAnswer"
+                                           ng-value="{{answer.name}}"
+                                           name="question{{$parent.$index}}"
+                                           value="{{answer}}{{$parent.$index}}"/>
+                                    {{answer.name}}
+                                </div>
+                                Válaszott kérdés: {{question.selectedAnswer}}
                             </div>
+                            <br/>
+                            <h5>Megfelelés kiértékelése</h5>
+                            {{previewSumScore}}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>
 
 
