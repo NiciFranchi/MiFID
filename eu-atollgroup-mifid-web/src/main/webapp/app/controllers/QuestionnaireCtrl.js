@@ -4,9 +4,12 @@
 
 angular.module('QuestionnaireCtrl', []).controller("QuestionnaireCtrl", function ($scope, $rootScope, QuestionnairesService) {
     $scope.isCollapsed = true;
+    $scope.answerWasSelected = false;
+    $scope.isAcceptable = false;
+    $scope.showAcceptResult = false;
 
-    $scope.allQuestionnaires = QuestionnairesService.query(function () {
-    });
+    // $scope.allQuestionnaires = QuestionnairesService.query(function () {
+    // });
     $scope.questionnaire = {
         id: '',
         name: '',
@@ -15,47 +18,24 @@ angular.module('QuestionnaireCtrl', []).controller("QuestionnaireCtrl", function
         questions: []
     }
 
-    $scope.questionnaireNames = [];
-    QuestionnairesService.query(function (allQuestionnaires) {
-        $scope.questionnaireNames.push("");
-        for (var i = 0; i < allQuestionnaires.length; i++) {
-            $scope.questionnaireNames.push(allQuestionnaires[i].name);
+    refreshQuestionnaireSelector();
+
+    $scope.$watch('questionnaire', function(newQuestionnaire, oldQuestionnaire) {
+        $scope.previewSumScore = getSum(newQuestionnaire.questions);
+
+        
+        if($scope.answerWasSelected == true && $scope.questionnaire.minScoreToAccept != null){
+            $scope.showAcceptResult = true;
+        } else {
+            $scope.showAcceptResult = false;
         }
-    });
-
-    $scope.quest = {
-        options: $scope.questionnaireNames,
-        selected: ""
-    };
-
-    function getSum(questions) {
-        console.log(questions);
-        var sum=0;
-        console.log($scope.questionnaire);
-        for(var i=0; i<questions.length; i++){
-            var question = questions[i];
-            console.log(question);
-            if(question.selectedAnswer != null){
-                sum = sum + question.selectedAnswer.score;
-            }
+        
+        if($scope.previewSumScore >= $scope.questionnaire.minScoreToAccept){
+            $scope.isAcceptable = true;
+        } else {
+            $scope.isAcceptable = false;
         }
-        return sum;
-    }
-
-    $scope.previewSumScore; //= getSum($scope.questionnaire.questions);
-
-    $scope.$watch('questionnaire.questions', function(newQuestions, oldQuestions) {
-        console.log("watcher called");
-        $scope.previewSumScore = getSum(newQuestions);
     }, true);
-
-    // var questions = $scope.questionnaire.questions;
-    // for (var i = 0; i < questions.length; i++) {
-    //     if (questions.selectedAnswer != null) {
-    //         console.log(questions[questions.selectedAnswer]);
-    //         $scope.previewSumScore = $scope.previewSumScore + questions[questions.selectedAnswer].score;
-    //     }
-    // }
 
     $scope.addQuestionnaire = function () {
         $scope.clearForm();
@@ -128,19 +108,8 @@ angular.module('QuestionnaireCtrl', []).controller("QuestionnaireCtrl", function
     }
 
     $scope.refreshContent = function () {
-        QuestionnairesService.query(function (data) {
-            $scope.allQuestionnaires = data;
-
-            $scope.questionnaireNames = [];
-            $scope.questionnaireNames.push("");
-            for (var i = 0; i < $scope.allQuestionnaires.length; i++) {
-                $scope.questionnaireNames.push($scope.allQuestionnaires[i].name);
-            }
-            $scope.quest = {
-                options: $scope.questionnaireNames,
-                selected: ""
-            };
-        });
+        console.log("refreshContent called");
+        refreshQuestionnaireSelector();
     };
 
     $scope.$on('refreshContent', function () {
@@ -198,4 +167,37 @@ angular.module('QuestionnaireCtrl', []).controller("QuestionnaireCtrl", function
                 $rootScope.$broadcast('error');
             });
     };
+
+    function refreshQuestionnaireSelector(){
+        $scope.questionnaireNames = [];
+        QuestionnairesService.query(function (allQuestionnaires) {
+            $scope.questionnaireNames.push("");
+            for (var i = 0; i < allQuestionnaires.length; i++) {
+                $scope.questionnaireNames.push(allQuestionnaires[i].name);
+            }
+        });
+
+        $scope.quest = {
+            options: $scope.questionnaireNames,
+            selected: ""
+        };
+    }
+
+
+    function getSum(questions) {
+        var sum=0;
+        for(var i=0; i<questions.length; i++){
+            var question = questions[i];
+            if(question.selectedAnswer != null){
+                $scope.answerWasSelected = true;
+                //Kérdés azonosító levágása a Stringdől...
+                var selected = question.selectedAnswer.substring(0, question.selectedAnswer.length -1);
+                //Majd a JSON objektummá való parse-olása
+                var selectedObj = JSON.parse(selected);
+                sum = sum + selectedObj.score;
+            }
+        }
+        return sum;
+    }
+
 });

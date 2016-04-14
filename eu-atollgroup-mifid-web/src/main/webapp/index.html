@@ -128,7 +128,7 @@
 
 
                                             <div ng-repeat="answer in question.answers">
-                                                <div class="row">
+                                                <div class="row answerStyle" >
                                                     <div class="col-md-1">
                                                     </div>
                                                     <div class="col-md-7 no-right-padding">
@@ -165,13 +165,13 @@
                                                 </div>
                                             </div>
 
-                                            <div class="row">
+                                            <div class="row answerStyle">
                                                 <div class="col-md-1">
                                                 </div>
                                                 <div class="col-md-7 no-right-padding">
                                                     <input type="text" class="form-control input-sm no-right-padding"
                                                            ng-model="answerName"
-                                                           placeholder="lehetséges válasz">
+                                                           placeholder="Lehetséges válasz">
                                                 </div>
 
                                                 <div class="col-md-2 no-left-padding no-right-padding">
@@ -249,11 +249,12 @@
                                            value="{{answer}}{{$parent.$index}}"/>
                                     {{answer.name}}
                                 </div>
-                                Válaszott kérdés: {{question.selectedAnswer}}
                             </div>
                             <br/>
-                            <h5>Megfelelés kiértékelése</h5>
-                            {{previewSumScore}}
+                            <div ng-show="showAcceptResult">
+                                <div ng-show="isAcceptable" class="alert alert-success" role="alert"><strong>Megfelelt a teszten!</strong></div>
+                                <div ng-show="!isAcceptable" class="alert alert-danger" role="alert"><strong>Nem felelt meg a teszten!</strong></div>
+                            </div>
                         </div>
                     </div>
                 </div>
