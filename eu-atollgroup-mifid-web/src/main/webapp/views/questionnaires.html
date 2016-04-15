@@ -1,0 +1,215 @@
+<div ng-controller="QuestionnaireCtrl">
+    <div class="row">
+        <!--KÉRDŐÍV SZERKESZTŐ-->
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Kérdőívek</h3>
+                </div>
+                <div class="panel-body">
+                    <!--KÉRDŐÍV VÁLASZTÓ-->
+                    <div class="well well-lg">
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <label>Meglévő kérdőív szerkesztése</label>
+                                    <select class="form-control" ng-model="quest.selected"
+                                            ng-options="o as o for o in quest.options" ng-change="selectUpdate()"
+                                            ng-disabled="!isCollapsed"></select>
+                                </div>
+                                <div class="col-md-1 positionOR">
+                                    <label>VAGY</label>
+                                </div>
+                                <!--KÉRDŐÍV FELVEVŐ-->
+                                <div class="col-md-3 positionNEWQUESTIONNAIRE">
+                                    <button type="button" class="btn btn-danger"
+                                            ng-click="addQuestionnaire()" ng-disabled="!isCollapsed">
+                                        Új kérdőív felvétele
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div uib-collapse="isCollapsed">
+                        <div class="well well-lg">
+                            <form name="questionnaireForm" ng-submit="submitQuestionnaireForm()">
+                                <div class="form-group"
+                                     ng-class="{ 'has-error' : questionnaireForm.name.$invalid && !questionnaireForm.name.$pristine}">
+                                    <label>Kérdőív elnevezése</label>
+                                    <input type="text" name="name" class="form-control"
+                                           ng-model="questionnaire.name" questionnairenamevalidator>
+                                    <p ng-show="questionnaireForm.name.$error.duplicate && !questionnaireForm.name.$pristine"
+                                       class="help-block">Ilyen nevű kérdőív már van!</p>
+                                    <p ng-show="questionnaireForm.name.$error.isempty && !questionnaireForm.name.$pristine"
+                                       class="help-block">Kérdőív elnevezés megadása kötelező!</p>
+
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        Leírás
+                                    </label>
+                                    <input type="text" name="description" class="form-control"
+                                           ng-model="questionnaire.description">
+                                </div>
+                                <div class="form-group">
+                                    <div ng-controller="PopoverDemoCtrl">
+                                        <label>Vonatkozó termék</label>
+                                        <select class="form-control" ng-model="placement.selected"
+                                                ng-options="o as o for o in placement.options"></select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Lehetséges kérdések és válaszok</label>
+                                    <div class="form-group" ng-repeat="question in questionnaire.questions">
+                                        <div class="input-group">
+                                            <div ng-class="{'has-error' : !question.name}">
+                                                <input type="text" required class="form-control" ng-model="question.name"
+                                                       uib-tooltip="Nem maradhat üresen, ha nincs szüksége rá, törölje!"
+                                                       tooltip-placement="top"
+                                                       tooltip-trigger="mouseenter"
+                                                       tooltip-enable="!question.name"/>
+                                            </div>
+                                            <div class="input-group-btn">
+                                                <button type="button" ng-click="removeQuestion($index)"
+                                                        class="btn btn-danger">Törlés
+                                                </button>
+                                            </div>
+                                        </div>
+
+
+                                        <div ng-repeat="answer in question.answers">
+                                            <div class="row answerStyle">
+                                                <div class="col-md-1">
+                                                </div>
+                                                <div class="col-md-7 no-right-padding">
+                                                    <div ng-class="{'has-error' : !answer.name}">
+                                                        <a href="#" uib-tooltip-html="htmlTooltip">
+                                                            <input type="text" required class="form-control input-sm"
+                                                                   ng-model="answer.name"
+                                                                   uib-tooltip="Nem maradhat üresen, ha nincs szüksége rá, törölje a válaszlehetőséget!"
+                                                                   tooltip-placement="top"
+                                                                   tooltip-trigger="mouseenter"
+                                                                   tooltip-enable="!answer.name"/>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2 no-left-padding no-right-padding">
+                                                    <div ng-class="{'has-error' : !answer.score}">
+                                                        <input type="number" required class="form-control input-sm "
+                                                               ng-model="answer.score"
+                                                               placeholder="pont"
+                                                               uib-tooltip="Számot írjon be vagy törölje a sort, ha nincs szüksége rá!"
+                                                               tooltip-placement="top"
+                                                               tooltip-trigger="mouseenter"
+                                                               tooltip-enable="!answer.score"/>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-2 no-left-padding">
+                                                    <button type="button"
+                                                            ng-click="removeAnswer($parent.$index, $index)"
+                                                            class="btn btn-danger btn-sm">
+                                                        Törlés
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row answerStyle">
+                                            <div class="col-md-1">
+                                            </div>
+                                            <div class="col-md-7 no-right-padding">
+                                                <input type="text" class="form-control input-sm no-right-padding"
+                                                       ng-model="answerName"
+                                                       placeholder="lehetséges válasz">
+                                            </div>
+
+                                            <div class="col-md-2 no-left-padding no-right-padding">
+                                                <input type="number" answerscorevalidator class="form-control input-sm "
+                                                       ng-model="answerScore"
+                                                       placeholder="pont">
+                                            </div>
+
+                                            <div class="col-md-2 no-left-padding">
+                                                <button type="button" class="btn btn-default btn-sm"
+                                                        ng-click="addAnswer($index)">Hozzáad
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" ng-model="questionName"
+                                                   placeholder="lehetséges kérdés">
+                                            <div class="input-group-btn">
+                                                <button type="button" ng-click="addQuestion(questionName)"
+                                                        class="btn btn-default">Hozzáad
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Megfelelés ponthatára</label>
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <input type="number" name="score" class="form-control input-sm "
+                                                   ng-model="questionnaire.minScoreToAccept"
+                                                   placeholder="pont">
+                                        </div>
+                                        <div class="col-md-10">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <input type="submit" class="btn btn-default"
+                                           ng-disabled="questionnaireForm.$invalid" value="Mentés">
+                                    <button type="button" class="btn btn-default" ng-click="cancelQuestionnaire()">Mégse
+                                    </button>
+                                    <button type="button" class="btn btn-danger" ng-click="deleteQuestionnaire()">Kérdőív
+                                        törlése
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--KÉRDŐÍV ELŐNÉZET-->
+        <div class="col-md-6">
+            <div uib-collapse="isCollapsed">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Előnézet</h3>
+                    </div>
+                    <div class="panel-body">
+                        <h4>Kitöltendő kérdőív: {{questionnaire.name}}</h4>
+                        <h6>{{questionnaire.description}}</h6>
+                        <div ng-repeat="question in questionnaire.questions">
+                            <label>{{$index+1}}. kérdés: {{question.name}}</label>
+                            <div ng-repeat="answer in question.answers">
+                                <input type="radio"
+                                       ng-model="question.selectedAnswer"
+                                       ng-value="{{answer.name}}"
+                                       name="question{{$parent.$index}}"
+                                       value="{{answer}}{{$parent.$index}}"/>
+                                {{answer.name}}
+                            </div>
+                        </div>
+                        <br/>
+                        <div ng-show="showAcceptResult">
+                            <div ng-show="isAcceptable" class="alert alert-success" role="alert"><strong>Megfelelt a teszten!</strong></div>
+                            <div ng-show="!isAcceptable" class="alert alert-danger" role="alert"><strong>Nem felelt meg a teszten!</strong></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

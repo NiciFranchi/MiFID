@@ -11,8 +11,13 @@
     padding-bottom: 5px;
 }
 
-.mybottom {
-    position: absolute;
-    bottom: 0px;
-    padding: 10px;
+.positionOR {
+    position: relative;
+    bottom: -30px;
 }
+
+.positionNEWQUESTIONNAIRE {
+    position: relative;
+    bottom: -25px;
+}
+

@@ -8,8 +8,6 @@ angular.module('QuestionnaireCtrl', []).controller("QuestionnaireCtrl", function
     $scope.isAcceptable = false;
     $scope.showAcceptResult = false;
 
-    // $scope.allQuestionnaires = QuestionnairesService.query(function () {
-    // });
     $scope.questionnaire = {
         id: '',
         name: '',

@@ -6,6 +6,7 @@ import entity.Question;
 import entity.Questionnaire;
 import handlerinterface.QuestionnaireHandlerLocal;
 import lookup.EJBLookup;
+import org.apache.log4j.Logger;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -18,25 +19,21 @@ import java.util.List;
 @Path("/resources/questionnaires")
 public class QuestionnaireService {
 
+    private static final Logger logger = Logger.getLogger(QuestionnaireService.class);
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Questionnaire> getQuestionnaires() {
+        logger.info("getQuestionnaires() called");
         QuestionnaireHandlerLocal handlerBean = EJBLookup.getInstance().getQuestionnaireHandlerLocal();
         return handlerBean.getQuestionnaires();
     }
 
-//    @GET
-//    @Path("{id}")
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public Questionnaire getQuestionnaire(@PathParam("id") Long id) {
-//        QuestionnaireHandlerLocal handlerBean = EJBLookup.getInstance().getQuestionnaireHandlerLocal();
-//        return  handlerBean.getQuestionnaire(id);
-//    }
-
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Questionnaire saveQuestonnaire(Questionnaire questionnaireFromJSON) {
-
+        logger.info("saveQuestonnaire() called");
+        logger.debug("input Jason object is" + questionnaireFromJSON);
         QuestionnaireHandlerLocal handlerBean = EJBLookup.getInstance().getQuestionnaireHandlerLocal();
 
         Questionnaire questionnaireToSave = questionnaireFromJSON;
@@ -66,8 +63,8 @@ public class QuestionnaireService {
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     public void deleteQuestionnaire(@PathParam("id") Long id) {
+        logger.info("deleteQuestionnaire() called with ID " + id);
         QuestionnaireHandlerLocal handlerBean = EJBLookup.getInstance().getQuestionnaireHandlerLocal();
         handlerBean.deleteQuestionnaire(id);
-        //return id;
     }
 }
