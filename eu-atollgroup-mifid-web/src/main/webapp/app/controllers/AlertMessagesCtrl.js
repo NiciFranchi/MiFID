@@ -8,11 +8,23 @@ angular.module('AlertMessagesCtrl', []).controller("AlertMessagesCtrl", function
             { type: 'success', msg: 'Kérdőív sikeresen elmentve!' }
         ];
     });
+
+    $scope.$on('productSaved', function () {
+        $scope.alerts = [
+            { type: 'success', msg: 'Termék sikeresen elmentve!' }
+        ];
+    });
     
     // Picks up the event to display a deleted message.
     $scope.$on('questionnaireDeleted', function () {
         $scope.alerts = [
             { type: 'success', msg: 'Kérdőív sikeresen törölve!' }
+        ];
+    });
+
+    $scope.$on('productDeleted', function () {
+        $scope.alerts = [
+            { type: 'success', msg: 'Termék sikeresen törölve!' }
         ];
     });
 

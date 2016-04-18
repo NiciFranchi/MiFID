@@ -1,7 +1,8 @@
 package lookup;
 
-import handlerinterface.QuestionHandlerLocal;
+import handlerinterface.ProductHandlerLocal;
 import handlerinterface.QuestionnaireHandlerLocal;
+import org.apache.log4j.Logger;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -12,34 +13,37 @@ import javax.naming.NamingException;
  */
 public class EJBLookup {
 
+    private static final Logger logger = Logger.getLogger(EJBLookup.class);
+
     private static final String QUESTIONNAIRE_HANDLER_JNDI = "java:app/eu-atollgroup-mifid-ejb-1.0-SNAPSHOT/QuestionnaireHandler";
-    private static final String QUESTION_HANDLER_JNDI = "java:app/eu-atollgroup-mifid-ejb-1.0-SNAPSHOT/QuestionHandler";
+    private static final String PRODUCT_HANDLER_JNDI = "java:app/eu-atollgroup-mifid-ejb-1.0-SNAPSHOT/ProductHandler";
 
 
     private static EJBLookup instance = new EJBLookup();
-
     private QuestionnaireHandlerLocal questionnaireHandlerLocal;
-    private QuestionHandlerLocal questionHandlerLocal;
+    private ProductHandlerLocal productHandlerLocal;
 
 
     private Context initialContext;
     private EJBLookup() {
         try {
-            //log.debug("Initializing EJBs...");
+            logger.debug("Initializing EJBs...");
             initialContext = new InitialContext();
 
             questionnaireHandlerLocal = (QuestionnaireHandlerLocal) initialContext.lookup(QUESTIONNAIRE_HANDLER_JNDI);
-            //log.debug("UserDAO has been initialized");
+            logger.debug("questionnaireHandlerLocal has been initialized");
 
-            questionHandlerLocal = (QuestionHandlerLocal)initialContext.lookup(QUESTION_HANDLER_JNDI);
+            productHandlerLocal = (ProductHandlerLocal) initialContext.lookup(PRODUCT_HANDLER_JNDI);
+            logger.debug("productHandlerLocal has been initialized");
 
-            //log.info("All EJBs have been initialized");
+            logger.info("All EJBs have been initialized");
         } catch (NamingException ex) {
-            //log.error("Exception occurred during the initialization of EJBs!", ex);
+            logger.error("Exception occurred during the initialization of EJBs!", ex);
         } finally {
             try {
                 initialContext.close();
             } catch (Exception ex) {
+                logger.error("Exception occurred during closing the initialContext!", ex);
             }
         }
 
@@ -51,5 +55,7 @@ public class EJBLookup {
     public QuestionnaireHandlerLocal getQuestionnaireHandlerLocal() {
         return questionnaireHandlerLocal;
     }
-    public QuestionHandlerLocal getQuestionHandlerLocal() { return questionHandlerLocal; }
+    public ProductHandlerLocal getProductHandlerLocal() {
+        return productHandlerLocal;
+    }
 }

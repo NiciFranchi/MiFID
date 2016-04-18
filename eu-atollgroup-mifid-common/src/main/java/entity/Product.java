@@ -1,23 +1,27 @@
 package entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
+import javax.persistence.*;
 import java.util.List;
 
 /**
  * Created by u95599 on 2016.03.08.
  */
 @Entity
+@JsonIgnoreProperties(ignoreUnknown=true)
 @javax.persistence.Table(name = "PRODUCTS")
 public class Product {
     @Id
     @GeneratedValue
-    private long id;
+    private Long id;
 
     private String name;
     private String description;
+    private boolean isQuestionnaireNeeded;
+
+    @OneToOne
+    private Questionnaire questionnaire;
 
     @ManyToMany
     private List<Customer> customerList;
@@ -44,5 +48,25 @@ public class Product {
 
     public void setCustomerList(List<Customer> customerList) {
         this.customerList = customerList;
+    }
+
+    public Questionnaire getQuestionnaire() {
+        return questionnaire;
+    }
+
+    public void setQuestionnaire(Questionnaire questionnaire) {
+        this.questionnaire = questionnaire;
+    }
+
+    public boolean isQuestionnaireNeeded() {
+        return isQuestionnaireNeeded;
+    }
+
+    public void setQuestionnaireNeeded(boolean questionnaireNeeded) {
+        isQuestionnaireNeeded = questionnaireNeeded;
+    }
+
+    public Long getId() {
+        return id;
     }
 }

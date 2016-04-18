@@ -24,6 +24,9 @@ public class Questionnaire {
     @Temporal(TemporalType.DATE)
     private Date dateOfCreation;
 
+    @Temporal(TemporalType.DATE)
+    private Date dateOfLastModification;
+
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "questionnaire", cascade = {CascadeType.ALL}, orphanRemoval=true)
     private List<Question> questions;
 
@@ -113,5 +116,11 @@ public class Questionnaire {
         }
     }
 
+    public Date getDateOfLastModification() {
+        return dateOfLastModification;
+    }
 
+    public void setDateOfLastModification(Date dateOfLastModification) {
+        this.dateOfLastModification = dateOfLastModification;
+    }
 }

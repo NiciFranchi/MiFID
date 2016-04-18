@@ -6,7 +6,6 @@ import handlerinterface.QuestionnaireHandlerLocal;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -20,14 +19,8 @@ public class QuestionnaireHandler implements QuestionnaireHandlerLocal {
     QuestionnaireFacade questionnaireFacade;
 
     @Override
-    public List<Questionnaire> getQuestionnaires(){
+    public List<Questionnaire> getQuestionnaires() {
         return questionnaireFacade.findAll();
-    }
-
-    @Override
-    public void addQuestionnaire(String name, String authorFirstName, String authorLastName, Date date) {
-        Questionnaire questionnaire = new Questionnaire(name, authorFirstName,authorLastName, date);
-        questionnaireFacade.create(questionnaire);
     }
 
     @Override
@@ -36,7 +29,7 @@ public class QuestionnaireHandler implements QuestionnaireHandlerLocal {
     }
 
     @Override
-    public Questionnaire getQuestionnaire(Long id){
+    public Questionnaire getQuestionnaire(Long id) {
         return questionnaireFacade.find(id);
     }
 

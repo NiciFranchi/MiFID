@@ -1,5 +1,78 @@
-<div>
-    <div>
-        <h1>Termékek</h1>
+<div ng-controller="ProductCtrl">
+    <div class="row">
+        <!--TERMÉK SZERKESZTŐ-->
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Szerkesztő</h3>
+                </div>
+                <div class="panel-body">
+                    <!--TERMÉK VÁLASZTÓ-->
+                    <div class="well well-lg">
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <label>Meglévő termék szerkesztése</label>
+                                    <select class="form-control" ng-model="prod.selected"
+                                            ng-options="o as o for o in prod.options" ng-change="selectUpdate()"
+                                            ng-disabled="!isCollapsed"></select>
+                                </div>
+                                <div class="col-md-1 positionOR">
+                                    <label>VAGY</label>
+                                </div>
+                                <div class="col-md-3 positionNEWQUESTIONNAIRE">
+                                    <button type="button" class="btn btn-danger"
+                                            ng-click="addProduct()" ng-disabled="!isCollapsed">
+                                        Új termék felvétele
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--TERMÉK FELVEVŐ-->
+                    <div uib-collapse="isCollapsed">
+                        <div class="well well-lg">
+                            <form name="productForm" ng-submit="submitProductForm()">
+                                <div class="form-group"
+                                     ng-class="{ 'has-error' : productForm.name.$invalid && !productForm.name.$pristine}">
+                                    <label>Termék elnevezése</label>
+                                    <input type="text" name="name" class="form-control"
+                                           ng-model="product.name" productnamevalidator>
+                                    <p ng-show="productForm.name.$error.duplicate && !productForm.name.$pristine"
+                                       class="help-block">Ilyen nevű termék már van!</p>
+                                    <p ng-show="productForm.name.$error.isempty && !productForm.name.$pristine"
+                                       class="help-block">Termék elnevezés megadása kötelező!</p>
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        Leírás
+                                    </label>
+                                    <input type="text" name="description" class="form-control"
+                                           ng-model="product.description">
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        Kérdőív szükséges
+                                    </label>
+                                    <input type="checkbox" ng-model="product.isQuestionnaireNeeded">
+                                </div>
+                                <div class="form-group">
+                                    <input type="submit" class="btn btn-default"
+                                           ng-disabled="productForm.$invalid" value="Mentés">
+                                    <button type="button" class="btn btn-default" ng-click="cancelProduct()">Mégse
+                                    </button>
+                                    <button type="button" class="btn btn-danger" ng-click="deleteProduct()">Kérdőív
+                                        törlése
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+        </div>
     </div>
 </div>
+

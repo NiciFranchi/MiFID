@@ -1,18 +1,17 @@
 package webservice;
 
 
-import handlerinterface.QuestionHandlerLocal;
+import entity.Questionnaire;
 import handlerinterface.QuestionnaireHandlerLocal;
 import lookup.EJBLookup;
 
 import javax.ejb.Stateless;
 import javax.interceptor.Interceptors;
 import javax.jws.WebMethod;
-import javax.jws.WebParam;
 import javax.jws.WebResult;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
-import java.util.Date;
+import java.util.List;
 
 /**
  * Created by u95599 on 2016.03.04.
@@ -33,23 +32,9 @@ import java.util.Date;
 public class MifidService {
 
     @WebMethod
-    @WebResult(name = "addQuestionnaireResponse")
-    public void addQuestionnaire(
-            @WebParam(name = "name") String name,
-            @WebParam(name = "authorFirstName") String authorFirstName,
-            @WebParam(name = "authosLastName") String authorLastName) {
+    @WebResult(name = "getQuestionnaires")
+    public List<Questionnaire> addQuestionnaire() {
         QuestionnaireHandlerLocal handlerBean = EJBLookup.getInstance().getQuestionnaireHandlerLocal();
-        handlerBean.addQuestionnaire(name, authorFirstName, authorLastName, new Date());
+        return handlerBean.getQuestionnaires();
     }
-
-    @WebMethod
-    @WebResult(name = "addQuestionResponse")
-    public void addQuestion(
-            @WebParam(name = "questionnaireId") Long questionnaireId,
-            @WebParam(name = "name") String name,
-            @WebParam(name = "description") String description){
-        QuestionHandlerLocal handlerBean = EJBLookup.getInstance().getQuestionHandlerLocal();
-        handlerBean.addQuestion(questionnaireId, name, description);
-    }
-//
 }

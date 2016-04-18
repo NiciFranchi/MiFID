@@ -7,10 +7,12 @@ var mainApp = angular.module("mainApp", [
     ,'ngAnimate'
     ,'ngRoute'
     ,'ui.bootstrap'
-    ,'mainApp.services'
+    ,'QuestionnairesService'
+    ,'ProductsService'
     ,'AlertMessagesCtrl'
     ,'QuestionnaireCtrl'
-    ,'PopoverDemoCtrl',
+    ,'PopoverDemoCtrl'
+    ,'ProductCtrl'
     ,'questionnairenamevalidator'
     ,'answerscorevalidator'
     ]);

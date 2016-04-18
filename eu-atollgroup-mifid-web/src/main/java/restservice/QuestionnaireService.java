@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -50,9 +51,12 @@ public class QuestionnaireService {
         }
         if (questionnaireToSave.getId() == null) {
 
+            questionnaireToSave.setDateOfCreation(new Date());
+            questionnaireToSave.setDateOfLastModification(new Date());
             handlerBean.addQuestionnaire(questionnaireToSave);
         }
         else {
+            questionnaireToSave.setDateOfLastModification(new Date());
             handlerBean.editQuestionnaire(questionnaireToSave);
         }
 
