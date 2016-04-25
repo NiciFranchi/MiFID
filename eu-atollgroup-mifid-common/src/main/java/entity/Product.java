@@ -11,11 +11,13 @@ import java.util.List;
 @Entity
 @JsonIgnoreProperties(ignoreUnknown=true)
 @javax.persistence.Table(name = "PRODUCTS")
+@NamedQuery(name = "Product.findByName", query = "SELECT p FROM Product p WHERE p.name = :productName")
 public class Product {
     @Id
     @GeneratedValue
     private Long id;
 
+    @Column(unique=true)
     private String name;
     private String description;
     private boolean isQuestionnaireNeeded;
@@ -58,12 +60,12 @@ public class Product {
         this.questionnaire = questionnaire;
     }
 
-    public boolean isQuestionnaireNeeded() {
+    public boolean getIsQuestionnaireNeeded() {
         return isQuestionnaireNeeded;
     }
 
-    public void setQuestionnaireNeeded(boolean questionnaireNeeded) {
-        isQuestionnaireNeeded = questionnaireNeeded;
+    public void setIsQuestionnaireNeeded(boolean isQuestionnaireNeeded) {
+        this.isQuestionnaireNeeded = isQuestionnaireNeeded;
     }
 
     public Long getId() {

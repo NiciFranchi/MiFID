@@ -19,4 +19,6 @@ public interface ProductHandlerLocal {
     void deleteProduct(Long id);
 
     void editProduct(Product product);
+
+    Product getProductByName(String name);
 }

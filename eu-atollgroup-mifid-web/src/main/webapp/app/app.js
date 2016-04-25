@@ -11,7 +11,6 @@ var mainApp = angular.module("mainApp", [
     ,'ProductsService'
     ,'AlertMessagesCtrl'
     ,'QuestionnaireCtrl'
-    ,'PopoverDemoCtrl'
     ,'ProductCtrl'
     ,'questionnairenamevalidator'
     ,'answerscorevalidator'

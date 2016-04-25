@@ -25,6 +25,16 @@ public class ProductService {
         return handlerBean.getProducts();
     }
 
+    @GET
+    @Path("/{name}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Product getProductByName(@PathParam("name") String name) {
+        logger.info("getProductByName() called with parameter " + name);
+        ProductHandlerLocal handlerBean = EJBLookup.getInstance().getProductHandlerLocal();
+        return handlerBean.getProductByName(name);
+    }
+
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Product saveProduct(Product product) {

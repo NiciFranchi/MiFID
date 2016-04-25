@@ -34,11 +34,9 @@ angular.module('ProductCtrl',[]).controller('ProductCtrl', function ($scope, $ro
                 }
             });
         }
-        console.log($scope.product);
     }
 
     $scope.refreshContent = function () {
-        console.log("refreshContent called");
         refreshProductSelector();
     };
 
@@ -81,7 +79,7 @@ angular.module('ProductCtrl',[]).controller('ProductCtrl', function ($scope, $ro
     }
 
     $scope.submitProductForm = function () {
-        ProductsService.save($scope.product).$promise.then(
+        ProductsService.save(this.product).$promise.then(
             function () {
                 // Broadcast the event to refresh the grid.
                 $rootScope.$broadcast('refreshContent');
@@ -97,16 +95,16 @@ angular.module('ProductCtrl',[]).controller('ProductCtrl', function ($scope, $ro
     };
 
     function refreshProductSelector(){
-        $scope.producteNames = [];
+        $scope.productNames = [];
         ProductsService.query(function (allProducts) {
-            $scope.producteNames.push("");
+            $scope.productNames.push("");
             for (var i = 0; i < allProducts.length; i++) {
-                $scope.producteNames.push(allProducts[i].name);
+                $scope.productNames.push(allProducts[i].name);
             }
         });
 
         $scope.prod = {
-            options: $scope.producteNames,
+            options: $scope.productNames,
             selected: ""
         };
     }

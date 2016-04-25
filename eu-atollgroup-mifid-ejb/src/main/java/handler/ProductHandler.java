@@ -3,11 +3,9 @@ package handler;
 import dal.ProductFacade;
 import entity.Product;
 import handlerinterface.ProductHandlerLocal;
-import org.apache.log4j.Logger;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -45,5 +43,10 @@ public class ProductHandler implements ProductHandlerLocal {
     @Override
     public void editProduct(Product product) {
         productFacade.edit(product);
+    }
+
+    @Override
+    public Product getProductByName(String name) {
+        return productFacade.findByName(name);
     }
 }

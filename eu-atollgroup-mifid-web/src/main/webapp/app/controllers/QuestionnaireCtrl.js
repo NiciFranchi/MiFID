@@ -2,10 +2,10 @@
  * Created by u95599 on 2016.03.18.
  */
 
-angular.module('QuestionnaireCtrl', []).controller("QuestionnaireCtrl", function ($scope, $rootScope, QuestionnairesService) {
+angular.module('QuestionnaireCtrl', []).controller("QuestionnaireCtrl", function ($scope, $rootScope, QuestionnairesService, ProductsService) {
     $scope.isCollapsed = true;
-    $scope.answerWasSelected = false;
     $scope.isAcceptable = false;
+    $scope.answerWasSelected = false;
     $scope.showAcceptResult = false;
 
     $scope.questionnaire = {
@@ -13,10 +13,16 @@ angular.module('QuestionnaireCtrl', []).controller("QuestionnaireCtrl", function
         name: '',
         description: '',
         minScoreToAccept: '',
-        questions: []
+        questions: [],
+        product: {
+            id: '',
+            name: '',
+            description: ''
+        }
     }
 
     refreshQuestionnaireSelector();
+    refreshProductSelector();
 
     $scope.$watch('questionnaire', function(newQuestionnaire, oldQuestionnaire) {
         $scope.previewSumScore = getSum(newQuestionnaire.questions);
@@ -86,7 +92,7 @@ angular.module('QuestionnaireCtrl', []).controller("QuestionnaireCtrl", function
         $scope.questionnaire.questions[$scope.selectedQuestionIndex].answers.splice(answerIndex, 1);
     }
 
-    $scope.selectUpdate = function () {
+    $scope.selectQuestionnaireUpdate = function () {
         if ($scope.quest.selected != '') {
             $scope.isCollapsed = false;
             $scope.questionnaire.name = $scope.quest.selected;
@@ -94,20 +100,29 @@ angular.module('QuestionnaireCtrl', []).controller("QuestionnaireCtrl", function
             QuestionnairesService.query(function (allQuestionnaires) {
                 for (var i = 0; i < allQuestionnaires.length; i++) {
                     if (allQuestionnaires[i].name == $scope.questionnaire.name) {
-                        $scope.questionnaire.id = allQuestionnaires[i].id;
-                        $scope.questionnaire.name = allQuestionnaires[i].name;
-                        $scope.questionnaire.description = allQuestionnaires[i].description;
-                        $scope.questionnaire.minScoreToAccept = allQuestionnaires[i].minScoreToAccept;
-                        $scope.questionnaire.questions = allQuestionnaires[i].questions;
+                        $scope.questionnaire = allQuestionnaires[i];
                     }
                 }
             });
         }
     }
 
+    $scope.selectProductUpdate = function () {
+        if ($scope.prod.selected != '') {
+            ProductsService.query({name: $scope.prod.selected}).$promise.then(
+                function (products) {            
+                    $scope.questionnaire.product.id = products[0].id;
+                    $scope.questionnaire.product.name = products[0].name;
+                    $scope.questionnaire.product.description = products[0].description;})
+            ;
+
+            console.log($scope.questionnaire);
+        }
+    }
+
     $scope.refreshContent = function () {
-        console.log("refreshContent called");
         refreshQuestionnaireSelector();
+        refreshProductSelector();
     };
 
     $scope.$on('refreshContent', function () {
@@ -151,6 +166,7 @@ angular.module('QuestionnaireCtrl', []).controller("QuestionnaireCtrl", function
     }
 
     $scope.submitQuestionnaireForm = function () {
+        console.log($scope.questionnaire);
         QuestionnairesService.save($scope.questionnaire).$promise.then(
             function () {
                 // Broadcast the event to refresh the grid.
@@ -188,7 +204,7 @@ angular.module('QuestionnaireCtrl', []).controller("QuestionnaireCtrl", function
             var question = questions[i];
             if(question.selectedAnswer != null){
                 $scope.answerWasSelected = true;
-                //Kérdés azonosító levágása a Stringdől...
+                //Kérdés azonosító levágása a Stringről...
                 var selected = question.selectedAnswer.substring(0, question.selectedAnswer.length -1);
                 //Majd a JSON objektummá való parse-olása
                 var selectedObj = JSON.parse(selected);
@@ -196,6 +212,21 @@ angular.module('QuestionnaireCtrl', []).controller("QuestionnaireCtrl", function
             }
         }
         return sum;
+    }
+
+    function refreshProductSelector(){
+        $scope.productNames = [];
+        ProductsService.query(function (allProducts) {
+            $scope.productNames.push("");
+            for (var i = 0; i < allProducts.length; i++) {
+                $scope.productNames.push(allProducts[i].name);
+            }
+        });
+
+        $scope.prod = {
+            options: $scope.productNames,
+            selected: ""
+        };
     }
 
 });

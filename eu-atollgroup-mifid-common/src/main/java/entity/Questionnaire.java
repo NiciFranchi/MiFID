@@ -30,7 +30,7 @@ public class Questionnaire {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "questionnaire", cascade = {CascadeType.ALL}, orphanRemoval=true)
     private List<Question> questions;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "questionnaire", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Product product;
 
     public Questionnaire(String name, String authorFirstName, String authorLastName, Date dateOfCreation) {
