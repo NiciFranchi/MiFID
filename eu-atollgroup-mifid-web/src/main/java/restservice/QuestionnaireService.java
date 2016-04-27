@@ -44,8 +44,10 @@ public class QuestionnaireService {
         Questionnaire questionnaireToSave = questionnaireFromJSON;
 
         Product product = questionnaireFromJSON.getProduct();
-        product.setQuestionnaire(questionnaireToSave);
-        questionnaireToSave.setProduct(product);
+        if(product != null){
+            product.setQuestionnaire(questionnaireToSave);
+            questionnaireToSave.setProduct(product);
+        }
 
         ImmutableList<Question> questions = ImmutableList.copyOf(questionnaireFromJSON.getQuestions());
         for (Question question: questions) {

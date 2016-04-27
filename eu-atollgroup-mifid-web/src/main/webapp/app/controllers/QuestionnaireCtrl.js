@@ -99,8 +99,10 @@ angular.module('QuestionnaireCtrl', []).controller("QuestionnaireCtrl", function
                 for (var i = 0; i < allQuestionnaires.length; i++) {
                     if (allQuestionnaires[i].name == $scope.questionnaire.name) {
                         $scope.questionnaire = allQuestionnaires[i];
+                        $scope.prod.selected = $scope.questionnaire.product.name;
                     }
                 }
+                console.log($scope.questionnaire);
             });
         }
     }
