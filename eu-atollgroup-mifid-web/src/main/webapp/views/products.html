@@ -10,23 +10,19 @@
                     <!--TERMÉK VÁLASZTÓ-->
                     <div class="well well-lg">
                         <div class="form-group">
-                            <div class="row">
-                                <div class="col-md-8">
-                                    <label>Meglévő termék szerkesztése</label>
-                                    <select class="form-control" ng-model="prod.selected"
-                                            ng-options="o as o for o in prod.options" ng-change="selectUpdate()"
-                                            ng-disabled="!isCollapsed"></select>
-                                </div>
-                                <div class="col-md-1 positionOR">
-                                    <label>VAGY</label>
-                                </div>
-                                <div class="col-md-3 positionNEWQUESTIONNAIRE">
-                                    <button type="button" class="btn btn-danger"
-                                            ng-click="addProduct()" ng-disabled="!isCollapsed">
-                                        Új termék felvétele
-                                    </button>
-                                </div>
-                            </div>
+                            <label>Meglévő termék szerkesztése</label>
+                            <select class="form-control" ng-model="prod.selected"
+                                    ng-options="o as o for o in prod.options" ng-change="selectUpdate()"
+                                    ng-disabled="!isCollapsed"></select>
+                        </div>
+                        <div class="form-group">
+                            <label>VAGY</label>
+                        </div>
+                        <div class="form-group">
+                            <button type="button" class="btn btn-danger"
+                                    ng-click="addProduct()" ng-disabled="!isCollapsed">
+                                Új termék felvétele
+                            </button>
                         </div>
                     </div>
                     <!--TERMÉK FELVEVŐ-->

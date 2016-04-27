@@ -10,25 +10,22 @@
                     <!--KÉRDŐÍV VÁLASZTÓ-->
                     <div class="well well-lg">
                         <div class="form-group">
-                            <div class="row">
-                                <div class="col-md-8">
-                                    <label>Meglévő kérdőív szerkesztése</label>
-                                    <select class="form-control" ng-model="quest.selected"
-                                            ng-options="o as o for o in quest.options" ng-change="selectQuestionnaireUpdate()"
-                                            ng-disabled="!isCollapsed"></select>
-                                </div>
-                                <div class="col-md-1 positionOR">
-                                    <label>VAGY</label>
-                                </div>
-                                <!--KÉRDŐÍV FELVEVŐ-->
-                                <div class="col-md-3 positionNEWQUESTIONNAIRE">
-                                    <button type="button" class="btn btn-danger"
-                                            ng-click="addQuestionnaire()" ng-disabled="!isCollapsed">
-                                        Új kérdőív felvétele
-                                    </button>
-                                </div>
-                            </div>
+                            <label>Meglévő kérdőív szerkesztése</label>
+                            <select class="form-control" ng-model="quest.selected"
+                                    ng-options="o as o for o in quest.options" ng-change="selectQuestionnaireUpdate()"
+                                    ng-disabled="!isCollapsed"></select>
                         </div>
+                        <div class="form-group">
+                            <label>VAGY</label>
+                        </div>
+                        <!--KÉRDŐÍV FELVEVŐ-->
+                        <div class="form-group">
+                            <button type="button" class="btn btn-danger"
+                                    ng-click="addQuestionnaire()" ng-disabled="!isCollapsed">
+                                Új kérdőív felvétele
+                            </button>
+                        </div>
+
                     </div>
                     <div uib-collapse="isCollapsed">
                         <div class="well well-lg">
@@ -52,9 +49,9 @@
                                            ng-model="questionnaire.description">
                                 </div>
                                 <div class="form-group">
-                                        <label>Vonatkozó termék</label>
-                                        <select class="form-control" ng-model="prod.selected"
-                                                ng-options="o as o for o in prod.options" ng-change="selectProductUpdate()"></select>
+                                    <label>Vonatkozó termék</label>
+                                    <select class="form-control" ng-model="prod.selected"
+                                            ng-options="o as o for o in prod.options" ng-change="selectProductUpdate()"></select>
                                 </div>
 
                                 <div class="form-group">

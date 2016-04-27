@@ -2,8 +2,10 @@ package restservice;
 
 import com.google.common.collect.ImmutableList;
 import entity.Answer;
+import entity.Product;
 import entity.Question;
 import entity.Questionnaire;
+import handlerinterface.ProductHandlerLocal;
 import handlerinterface.QuestionnaireHandlerLocal;
 import lookup.EJBLookup;
 import org.apache.log4j.Logger;
@@ -37,8 +39,13 @@ public class QuestionnaireService {
         logger.debug("input Jason object is" + questionnaireFromJSON);
         QuestionnaireHandlerLocal handlerBean = EJBLookup.getInstance().getQuestionnaireHandlerLocal();
 
+        ProductHandlerLocal productHandlerBean = EJBLookup.getInstance().getProductHandlerLocal();
+
         Questionnaire questionnaireToSave = questionnaireFromJSON;
 
+        Product product = questionnaireFromJSON.getProduct();
+        product.setQuestionnaire(questionnaireToSave);
+        questionnaireToSave.setProduct(product);
 
         ImmutableList<Question> questions = ImmutableList.copyOf(questionnaireFromJSON.getQuestions());
         for (Question question: questions) {

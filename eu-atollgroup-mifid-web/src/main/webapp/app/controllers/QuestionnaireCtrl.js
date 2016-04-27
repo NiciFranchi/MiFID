@@ -14,27 +14,25 @@ angular.module('QuestionnaireCtrl', []).controller("QuestionnaireCtrl", function
         description: '',
         minScoreToAccept: '',
         questions: [],
-        product: {
-            id: '',
-            name: '',
-            description: ''
-        }
+        product: {}
     }
+
+    $scope.product = {};
 
     refreshQuestionnaireSelector();
     refreshProductSelector();
 
-    $scope.$watch('questionnaire', function(newQuestionnaire, oldQuestionnaire) {
+    $scope.$watch('questionnaire', function (newQuestionnaire, oldQuestionnaire) {
         $scope.previewSumScore = getSum(newQuestionnaire.questions);
 
-        
-        if($scope.answerWasSelected == true && $scope.questionnaire.minScoreToAccept != null){
+
+        if ($scope.answerWasSelected == true && $scope.questionnaire.minScoreToAccept != null) {
             $scope.showAcceptResult = true;
         } else {
             $scope.showAcceptResult = false;
         }
-        
-        if($scope.previewSumScore >= $scope.questionnaire.minScoreToAccept){
+
+        if ($scope.previewSumScore >= $scope.questionnaire.minScoreToAccept) {
             $scope.isAcceptable = true;
         } else {
             $scope.isAcceptable = false;
@@ -108,13 +106,16 @@ angular.module('QuestionnaireCtrl', []).controller("QuestionnaireCtrl", function
     }
 
     $scope.selectProductUpdate = function () {
+        $scope.questionnaire.product = {};
         if ($scope.prod.selected != '') {
             ProductsService.query({name: $scope.prod.selected}).$promise.then(
-                function (products) {            
-                    $scope.questionnaire.product.id = products[0].id;
-                    $scope.questionnaire.product.name = products[0].name;
-                    $scope.questionnaire.product.description = products[0].description;})
-            ;
+                function (products) {
+                    $scope.product.id = products[0].id;
+                    $scope.product.name = products[0].name;
+                    $scope.product.description = products[0].description;
+
+                    $scope.questionnaire.product = $scope.product;
+                });
 
             console.log($scope.questionnaire);
         }
@@ -182,7 +183,7 @@ angular.module('QuestionnaireCtrl', []).controller("QuestionnaireCtrl", function
             });
     };
 
-    function refreshQuestionnaireSelector(){
+    function refreshQuestionnaireSelector() {
         $scope.questionnaireNames = [];
         QuestionnairesService.query(function (allQuestionnaires) {
             $scope.questionnaireNames.push("");
@@ -199,13 +200,13 @@ angular.module('QuestionnaireCtrl', []).controller("QuestionnaireCtrl", function
 
 
     function getSum(questions) {
-        var sum=0;
-        for(var i=0; i<questions.length; i++){
+        var sum = 0;
+        for (var i = 0; i < questions.length; i++) {
             var question = questions[i];
-            if(question.selectedAnswer != null){
+            if (question.selectedAnswer != null) {
                 $scope.answerWasSelected = true;
                 //Kérdés azonosító levágása a Stringről...
-                var selected = question.selectedAnswer.substring(0, question.selectedAnswer.length -1);
+                var selected = question.selectedAnswer.substring(0, question.selectedAnswer.length - 1);
                 //Majd a JSON objektummá való parse-olása
                 var selectedObj = JSON.parse(selected);
                 sum = sum + selectedObj.score;
@@ -214,7 +215,7 @@ angular.module('QuestionnaireCtrl', []).controller("QuestionnaireCtrl", function
         return sum;
     }
 
-    function refreshProductSelector(){
+    function refreshProductSelector() {
         $scope.productNames = [];
         ProductsService.query(function (allProducts) {
             $scope.productNames.push("");
