@@ -17,6 +17,14 @@ angular.module('QuestionnaireCtrl', []).controller("QuestionnaireCtrl", function
         product: {}
     }
 
+    var emptyQuestionnaire = {
+        id: '',
+        name: '',
+        description: '',
+        minScoreToAccept: '',
+        questions: []
+    }
+
     $scope.product = {};
 
     refreshQuestionnaireSelector();
@@ -112,15 +120,17 @@ angular.module('QuestionnaireCtrl', []).controller("QuestionnaireCtrl", function
         if ($scope.prod.selected != '') {
             ProductsService.query({name: $scope.prod.selected}).$promise.then(
                 function (products) {
+                    console.log(products);
                     $scope.product.id = products[0].id;
                     $scope.product.name = products[0].name;
                     $scope.product.description = products[0].description;
 
                     $scope.questionnaire.product = $scope.product;
                 });
-
-            console.log($scope.questionnaire);
+        } else {
+            $scope.questionnaire.product = null;
         }
+        console.log($scope.questionnaire);
     }
 
     $scope.refreshContent = function () {
@@ -131,6 +141,7 @@ angular.module('QuestionnaireCtrl', []).controller("QuestionnaireCtrl", function
     $scope.$on('refreshContent', function () {
         $scope.refreshContent();
     });
+
 
     $scope.clearForm = function () {
         var emptyQuestionnaire = {

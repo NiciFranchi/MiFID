@@ -44,9 +44,12 @@ public class QuestionnaireService {
         Questionnaire questionnaireToSave = questionnaireFromJSON;
 
         Product product = questionnaireFromJSON.getProduct();
-        if(product != null){
+        if(product != null && product.getName() != null){
             product.setQuestionnaire(questionnaireToSave);
             questionnaireToSave.setProduct(product);
+        } else if (product.getName() == null){
+            product.setQuestionnaire(null);
+            questionnaireToSave.setProduct(null);
         }
 
         ImmutableList<Question> questions = ImmutableList.copyOf(questionnaireFromJSON.getQuestions());
@@ -59,8 +62,7 @@ public class QuestionnaireService {
             questionnaireToSave.addQuestion(questionToSave);
 
         }
-        if (questionnaireToSave.getId() == null) {
-
+        if (questionnaireToSave.getId() == null && product == null) {
             questionnaireToSave.setDateOfCreation(new Date());
             questionnaireToSave.setDateOfLastModification(new Date());
             handlerBean.addQuestionnaire(questionnaireToSave);

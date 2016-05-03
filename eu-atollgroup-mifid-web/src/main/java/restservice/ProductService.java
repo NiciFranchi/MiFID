@@ -1,6 +1,7 @@
 package restservice;
 
 import entity.Product;
+import entity.Questionnaire;
 import handlerinterface.ProductHandlerLocal;
 import lookup.EJBLookup;
 import org.apache.log4j.Logger;
@@ -42,7 +43,12 @@ public class ProductService {
         logger.debug("input Jason object is" + product);
         ProductHandlerLocal handlerBean = EJBLookup.getInstance().getProductHandlerLocal();
 
-        if (product.getId() == null) {
+        Questionnaire questionnaire = product.getQuestionnaire();
+        if(questionnaire != null){
+            product.setQuestionnaire(questionnaire);
+            questionnaire.setProduct(product);
+        }
+        if (product.getId() == null && questionnaire != null) {
             handlerBean.addProduct(product);
         }
         else {
