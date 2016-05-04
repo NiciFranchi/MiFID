@@ -4,6 +4,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
 /**
@@ -13,6 +14,7 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown=true)
 @javax.persistence.Table(name = "PRODUCTS")
 @NamedQuery(name = "Product.findByName", query = "SELECT p FROM Product p WHERE p.name = :productName")
+@XmlRootElement
 public class Product {
     @Id
     @GeneratedValue
@@ -23,7 +25,7 @@ public class Product {
     private String description;
     private boolean isQuestionnaireNeeded;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "product", cascade = {CascadeType.ALL})
     @JsonIgnore
     private Questionnaire questionnaire;
 

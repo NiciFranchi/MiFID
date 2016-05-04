@@ -33,7 +33,7 @@ public class MifidService {
 
     @WebMethod
     @WebResult(name = "getQuestionnaires")
-    public List<Questionnaire> addQuestionnaire() {
+    public List<Questionnaire> getQuestionnaires() {
         QuestionnaireHandlerLocal handlerBean = EJBLookup.getInstance().getQuestionnaireHandlerLocal();
         return handlerBean.getQuestionnaires();
     }

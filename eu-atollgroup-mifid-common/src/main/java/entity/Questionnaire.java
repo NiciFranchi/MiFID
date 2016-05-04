@@ -3,6 +3,7 @@ package entity;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.List;
 @Entity
 @JsonIgnoreProperties(ignoreUnknown=true)
 @javax.persistence.Table(name = "QUESTIONNAIRES")
+@XmlRootElement
 public class Questionnaire {
     @Id
     @GeneratedValue
@@ -30,7 +32,7 @@ public class Questionnaire {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "questionnaire", cascade = {CascadeType.ALL}, orphanRemoval=true)
     private List<Question> questions;
 
-    @OneToOne(fetch = FetchType.EAGER, mappedBy = "questionnaire", cascade = {CascadeType.ALL})
+    @OneToOne
     private Product product;
 
     public Questionnaire(String name, String authorFirstName, String authorLastName, Date dateOfCreation) {

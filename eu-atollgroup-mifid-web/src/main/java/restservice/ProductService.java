@@ -48,10 +48,9 @@ public class ProductService {
             product.setQuestionnaire(questionnaire);
             questionnaire.setProduct(product);
         }
-        if (product.getId() == null && questionnaire != null) {
+        if (product.getId() == null && questionnaire == null) {
             handlerBean.addProduct(product);
-        }
-        else {
+        } else {
             handlerBean.editProduct(product);
         }
 

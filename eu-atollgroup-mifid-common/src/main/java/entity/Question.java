@@ -4,6 +4,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
 /**
@@ -13,6 +14,7 @@ import java.util.List;
 @Entity
 @JsonIgnoreProperties(ignoreUnknown=true)
 @javax.persistence.Table(name = "QUESTIONS")
+@XmlRootElement
 public class Question {
     @Id
     @GeneratedValue

@@ -17,14 +17,6 @@ angular.module('QuestionnaireCtrl', []).controller("QuestionnaireCtrl", function
         product: {}
     }
 
-    var emptyQuestionnaire = {
-        id: '',
-        name: '',
-        description: '',
-        minScoreToAccept: '',
-        questions: []
-    }
-
     $scope.product = {};
 
     refreshQuestionnaireSelector();
@@ -110,7 +102,6 @@ angular.module('QuestionnaireCtrl', []).controller("QuestionnaireCtrl", function
                         $scope.prod.selected = $scope.questionnaire.product.name;
                     }
                 }
-                console.log($scope.questionnaire);
             });
         }
     }
@@ -118,19 +109,16 @@ angular.module('QuestionnaireCtrl', []).controller("QuestionnaireCtrl", function
     $scope.selectProductUpdate = function () {
         $scope.questionnaire.product = {};
         if ($scope.prod.selected != '') {
-            ProductsService.query({name: $scope.prod.selected}).$promise.then(
-                function (products) {
-                    console.log(products);
-                    $scope.product.id = products[0].id;
-                    $scope.product.name = products[0].name;
-                    $scope.product.description = products[0].description;
-
-                    $scope.questionnaire.product = $scope.product;
-                });
+            ProductsService.query(function (allProducts) {
+                for (var i = 0; i < allProducts.length; i++) {
+                    if (allProducts[i].name == $scope.prod.selected) {
+                        $scope.questionnaire.product = allProducts[i];
+                    }
+                }
+            });
         } else {
             $scope.questionnaire.product = null;
         }
-        console.log($scope.questionnaire);
     }
 
     $scope.refreshContent = function () {
@@ -233,7 +221,9 @@ angular.module('QuestionnaireCtrl', []).controller("QuestionnaireCtrl", function
         ProductsService.query(function (allProducts) {
             $scope.productNames.push("");
             for (var i = 0; i < allProducts.length; i++) {
-                $scope.productNames.push(allProducts[i].name);
+                if(allProducts[i].isQuestionnaireNeeded == true){
+                    $scope.productNames.push(allProducts[i].name);
+                }
             }
         });
 

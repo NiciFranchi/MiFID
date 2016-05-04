@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Created by u95599 on 2016.03.08.
@@ -14,6 +15,7 @@ import javax.persistence.ManyToOne;
 @Entity
 @JsonIgnoreProperties(ignoreUnknown=true)
 @javax.persistence.Table(name = "ANSWERS")
+@XmlRootElement
 public class Answer {
     @Id
     @GeneratedValue

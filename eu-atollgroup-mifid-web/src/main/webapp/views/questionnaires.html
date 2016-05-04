@@ -51,7 +51,8 @@
                                 <div class="form-group">
                                     <label>Vonatkozó termék</label>
                                     <select class="form-control" ng-model="prod.selected"
-                                            ng-options="o as o for o in prod.options" ng-change="selectProductUpdate()"></select>
+                                            ng-options="o as o for o in prod.options"
+                                            ng-change="selectProductUpdate()"></select>
                                 </div>
 
                                 <div class="form-group">
@@ -59,7 +60,8 @@
                                     <div class="form-group" ng-repeat="question in questionnaire.questions">
                                         <div class="input-group">
                                             <div ng-class="{'has-error' : !question.name}">
-                                                <input type="text" required class="form-control" ng-model="question.name"
+                                                <input type="text" required class="form-control"
+                                                       ng-model="question.name"
                                                        uib-tooltip="Nem maradhat üresen, ha nincs szüksége rá, törölje!"
                                                        tooltip-placement="top"
                                                        tooltip-trigger="mouseenter"
@@ -79,25 +81,19 @@
                                                 </div>
                                                 <div class="col-md-7 no-right-padding">
                                                     <div ng-class="{'has-error' : !answer.name}">
-                                                        <a href="#" uib-tooltip-html="htmlTooltip">
-                                                            <input type="text" required class="form-control input-sm"
-                                                                   ng-model="answer.name"
-                                                                   uib-tooltip="Nem maradhat üresen, ha nincs szüksége rá, törölje a válaszlehetőséget!"
-                                                                   tooltip-placement="top"
-                                                                   tooltip-trigger="mouseenter"
-                                                                   tooltip-enable="!answer.name"/>
-                                                        </a>
+                                                        <input type="text" required class="form-control input-sm"
+                                                               ng-model="answer.name"
+                                                               uib-tooltip="Nem maradhat üresen, ha nincs szüksége rá, törölje a válaszlehetőséget!"
+                                                               tooltip-placement="top"
+                                                               tooltip-trigger="mouseenter"
+                                                               tooltip-enable="!answer.name"/>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-2 no-left-padding no-right-padding">
-                                                    <div ng-class="{'has-error' : !answer.score}">
-                                                        <input type="number" required class="form-control input-sm "
+                                                    <div ng-class="{'has-error' : questionnaireForm.answer.score.$error.number}">
+                                                        <input type="number" name="answer.score" required class="form-control input-sm "
                                                                ng-model="answer.score"
-                                                               placeholder="pont"
-                                                               uib-tooltip="Számot írjon be vagy törölje a sort, ha nincs szüksége rá!"
-                                                               tooltip-placement="top"
-                                                               tooltip-trigger="mouseenter"
-                                                               tooltip-enable="!answer.score"/>
+                                                               placeholder="pont"/>
                                                     </div>
                                                 </div>
 
@@ -165,7 +161,8 @@
                                            ng-disabled="questionnaireForm.$invalid" value="Mentés">
                                     <button type="button" class="btn btn-default" ng-click="cancelQuestionnaire()">Mégse
                                     </button>
-                                    <button type="button" class="btn btn-danger" ng-click="deleteQuestionnaire()">Kérdőív
+                                    <button type="button" class="btn btn-danger" ng-click="deleteQuestionnaire()">
+                                        Kérdőív
                                         törlése
                                     </button>
                                 </div>
@@ -183,6 +180,7 @@
                         <h3 class="panel-title">Előnézet</h3>
                     </div>
                     <div class="panel-body">
+                        <h4>Vonatkozó termék: {{questionnaire.product.name}}</h4>
                         <h4>Kitöltendő kérdőív: {{questionnaire.name}}</h4>
                         <h6>{{questionnaire.description}}</h6>
                         <div ng-repeat="question in questionnaire.questions">
@@ -198,8 +196,10 @@
                         </div>
                         <br/>
                         <div ng-show="showAcceptResult">
-                            <div ng-show="isAcceptable" class="alert alert-success" role="alert"><strong>Megfelelt a teszten!</strong></div>
-                            <div ng-show="!isAcceptable" class="alert alert-danger" role="alert"><strong>Nem felelt meg a teszten!</strong></div>
+                            <div ng-show="isAcceptable" class="alert alert-success" role="alert"><strong>Megfelelt a
+                                teszten!</strong></div>
+                            <div ng-show="!isAcceptable" class="alert alert-danger" role="alert"><strong>Nem felelt meg
+                                a teszten!</strong></div>
                         </div>
                     </div>
                 </div>

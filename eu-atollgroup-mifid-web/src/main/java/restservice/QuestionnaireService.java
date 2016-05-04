@@ -47,9 +47,6 @@ public class QuestionnaireService {
         if(product != null && product.getName() != null){
             product.setQuestionnaire(questionnaireToSave);
             questionnaireToSave.setProduct(product);
-        } else if (product.getName() == null){
-            product.setQuestionnaire(null);
-            questionnaireToSave.setProduct(null);
         }
 
         ImmutableList<Question> questions = ImmutableList.copyOf(questionnaireFromJSON.getQuestions());

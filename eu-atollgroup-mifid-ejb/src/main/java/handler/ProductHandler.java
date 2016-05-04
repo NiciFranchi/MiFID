@@ -37,12 +37,24 @@ public class ProductHandler implements ProductHandlerLocal {
     @Override
     public void deleteProduct(Long id) {
         Product product = productFacade.find(id);
+        if(product.getQuestionnaire() != null){
+            product.getQuestionnaire().setProduct(null);
+            product.setQuestionnaire(null);
+        }
         productFacade.remove(product);
     }
 
     @Override
     public void editProduct(Product product) {
-        productFacade.edit(product);
+        Product productToSave = productFacade.find(product.getId());
+        productToSave.setName(product.getName());
+        productToSave.setDescription(product.getDescription());
+        productToSave.setIsQuestionnaireNeeded(product.getIsQuestionnaireNeeded());
+        if(product.getIsQuestionnaireNeeded() == false){
+            productToSave.getQuestionnaire().setProduct(null);
+            productToSave.setQuestionnaire(null);
+        }
+        productFacade.edit(productToSave);
     }
 
     @Override
