@@ -4,7 +4,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import javax.persistence.*;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.*;
 import java.util.List;
 
 /**
@@ -14,7 +14,8 @@ import java.util.List;
 @Entity
 @JsonIgnoreProperties(ignoreUnknown=true)
 @javax.persistence.Table(name = "QUESTIONS")
-@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name="question")
 public class Question {
     @Id
     @GeneratedValue
@@ -22,12 +23,16 @@ public class Question {
 
     @ManyToOne
     @JsonIgnore
+    @XmlTransient
     private Questionnaire questionnaire;
-
+    @XmlElement
     private String name;
+    @XmlElement
     private String description;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval=true)
+    @XmlElement
+
     private List<Answer> answers;
 
     public Question(){

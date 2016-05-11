@@ -4,7 +4,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import javax.persistence.*;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.*;
 import java.util.List;
 
 /**
@@ -14,23 +14,38 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown=true)
 @javax.persistence.Table(name = "PRODUCTS")
 @NamedQuery(name = "Product.findByName", query = "SELECT p FROM Product p WHERE p.name = :productName")
-@XmlRootElement
+@XmlRootElement(name="product")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Product {
     @Id
     @GeneratedValue
+    @XmlElement
     private Long id;
 
     @Column(unique=true)
+    @XmlElement
     private String name;
+    @XmlElement
     private String description;
+    @XmlElement
     private boolean isQuestionnaireNeeded;
 
     @OneToOne(fetch = FetchType.EAGER, mappedBy = "product", cascade = {CascadeType.ALL})
     @JsonIgnore
+    @XmlTransient
     private Questionnaire questionnaire;
 
     @ManyToMany
     private List<Customer> customerList;
+
+    public Product() {
+    }
+
+    public Product(String name, String description, boolean isQuestionnaireNeeded) {
+        this.name = name;
+        this.description = description;
+        this.isQuestionnaireNeeded = isQuestionnaireNeeded;
+    }
 
     public String getName() {
         return name;
@@ -72,7 +87,9 @@ public class Product {
         this.isQuestionnaireNeeded = isQuestionnaireNeeded;
     }
 
+
     public Long getId() {
         return id;
     }
+
 }

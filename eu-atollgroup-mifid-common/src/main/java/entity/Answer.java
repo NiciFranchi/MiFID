@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.*;
 
 /**
  * Created by u95599 on 2016.03.08.
@@ -15,16 +15,21 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @JsonIgnoreProperties(ignoreUnknown=true)
 @javax.persistence.Table(name = "ANSWERS")
-@XmlRootElement
+@XmlRootElement(name="answer")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Answer {
     @Id
     @GeneratedValue
     private Long id;
+    @XmlElement
     private String name;
+    @XmlElement
     private int score;
 
     @ManyToOne
     @JsonIgnore
+    @XmlElement
+    @XmlTransient
     private Question question;
 
     public Answer(){

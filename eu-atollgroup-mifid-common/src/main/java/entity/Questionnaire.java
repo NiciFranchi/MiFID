@@ -3,7 +3,7 @@ package entity;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import javax.persistence.*;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -11,28 +11,38 @@ import java.util.List;
 @Entity
 @JsonIgnoreProperties(ignoreUnknown=true)
 @javax.persistence.Table(name = "QUESTIONNAIRES")
-@XmlRootElement
+@XmlRootElement(name="questionnaire")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Questionnaire {
     @Id
     @GeneratedValue
     private Long id;
 
     @Column(unique=true)
+    @XmlElement
     private String name;
+    @XmlElement
     private String description;
+    @XmlElement
     private String authorFirstName;
+    @XmlElement
     private String authorLastName;
+    @XmlElement
     private int minScoreToAccept;
     @Temporal(TemporalType.DATE)
+    @XmlElement
     private Date dateOfCreation;
 
     @Temporal(TemporalType.DATE)
+    @XmlElement
     private Date dateOfLastModification;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "questionnaire", cascade = {CascadeType.ALL}, orphanRemoval=true)
+    @XmlElement
     private List<Question> questions;
 
     @OneToOne
+    @XmlElement
     private Product product;
 
     public Questionnaire(String name, String authorFirstName, String authorLastName, Date dateOfCreation) {
