@@ -1,4 +1,8 @@
 # MiFID kérdőív felvevő rendszer
+
+[![security status](https://qa.meterian.com/badge/gh/NiciFranchi/MiFID/security)](https://qa.meterian.com/report/gh/NiciFranchi/MiFID)
+[![stability status](https://qa.meterian.com/badge/gh/NiciFranchi/MiFID/stability)](https://qa.meterian.com/report/gh/NiciFranchi/MiFID)
+
 ##1.	Bevezetés
 <p>
 Napjainkban elengedhetetlen, hogy az emberek számára bármilyen tevékenység esetén elegendő információ álljon rendelkezésre, ugyanis csak ilyenkor hozhatnak racionális döntéseket. Ennek ellenőrzésének remek eszköze a megfelelési tesztek használata, ami ennek a dokumentumnak is a témája. Munkám során egy ilyen rendszer alapjait kezdtem el megtervezni és megvalósítani. Az ilyen megfelelési teszteket legkönnyebben kérdőív formájában lehet elképzelni. Munkám során fontos célkitűzés volt, hogy a rendszer minél 
